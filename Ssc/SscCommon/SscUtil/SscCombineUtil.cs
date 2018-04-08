@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SscCommon.CommonUti;
 
 namespace SscCommon.SscUtil
 {
     public class SscCombineUtil
     {
-        public static List<List<int>> CombineNumbers(List<int> danList,List<int> tuoList)
+        private static List<List<int>> CombineNumbers(List<int> danList,List<int> tuoList)
         {
+            danList.Sort();
+            tuoList.Sort();
             var combinedList = new List<List<int>>();
             var a2 = PermutationAndCombination<int>.GetCombination(tuoList.ToArray(), 2);
             var a3 = PermutationAndCombination<int>.GetCombination(tuoList.ToArray(), 3);
@@ -98,6 +101,7 @@ namespace SscCommon.SscUtil
                     combinedBet.Add(bet);
                 }
             }
+            combinedBet.Reverse();
             return combinedBet;
         }
     }
