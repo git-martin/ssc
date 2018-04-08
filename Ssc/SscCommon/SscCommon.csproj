@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SscCommon</RootNamespace>
     <AssemblyName>SscCommon</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,8 +36,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PermutationAndCombination.cs" />
+    <Compile Include="Buz\ElevenX5Buz.cs" />
+    <Compile Include="CommonUti\FileUtil.cs" />
+    <Compile Include="CommonUti\PermutationAndCombination.cs" />
+    <Compile Include="Models\SscModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SscUtil\SscConst.cs" />
+    <Compile Include="SscUtil\SscExtends.cs" />
+    <Compile Include="SscUtil\SscCombineUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

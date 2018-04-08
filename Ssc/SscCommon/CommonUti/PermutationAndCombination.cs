@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace SscCommon
+namespace SscCommon.CommonUti
 {
     public class PermutationAndCombination<T>
     {
