@@ -13,7 +13,7 @@ namespace ssc.test
     {
         static void Main(string[] args)
         {
-            var r1 = SscCombineUtil.CombineBet(new List<int> { 1, 2 }, new List<int> { 3, 4, 5, 6 });
+            var r1 = SscCombineUtil.CombineBetNo(new List<int> { 1, 2 }, new List<int> { 3, 4, 5, 6 });
             var r = r1.Distinct().ToList();
             var txt = "";
             foreach(var a in r){
@@ -24,10 +24,10 @@ namespace ssc.test
                 txt += s + "\r\n";
             }
 
-            var models = new List<SscModel>();
+            var models = new List<ElevenX5Model>();
             for (int i = 2; i < 84; i++)
             {
-                var model = new SscModel()
+                var model = new ElevenX5Model()
                 {
                     IssueNo = 18040800 + i,
                     BetNo = new List<int>() {i + 1, i + 2, i + 3, i + 4, i + 5}

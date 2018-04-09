@@ -15,10 +15,11 @@ namespace ElevenX5
     public partial class Form1 : Form
     {
 
-        protected List<SscModel> Models { get; set; }
+        protected List<ElevenX5Model> KaijiangModels { get; set; }
         protected List<int> DanList { get; set; }
         protected List<int> TuoList { get; set; }
         protected List<List<int>> CombinedModels { get; set; }
+        protected List<DanTuoModel> DanTuoModels { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -38,21 +39,39 @@ namespace ElevenX5
             this.listView2.Columns.Add("胆拖组合号码", 160, HorizontalAlignment.Left);
             this.listView2.GridLines = true;
             this.listView2.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
+
+            this.listView3.Columns.Add("序号", 40, HorizontalAlignment.Center);
+            this.listView3.Columns.Add("不符合的胆拖", 160, HorizontalAlignment.Left);
+            this.listView3.Columns.Add("不符期数", 160, HorizontalAlignment.Center);
+            this.listView3.GridLines = true;
+            this.listView3.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
+        }
+       
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.InitControls();
+            LoadData();
+            FillView();
+        }
+
+        private void LoadData()
+        {
+            KaijiangModels = ElevenX5Buz.GetModelFromFile();
         }
         #endregion
 
         private void ModelsSort()
         {
-            Models =  Models.OrderBy(s => s.IssueNo).ToList();
+            KaijiangModels =  KaijiangModels.OrderBy(s => s.IssueNo).ToList();
         }
         private void FillView()
         {
             ModelsSort();
             listView1.Items.Clear();
-            if (!Models.Any())
+            if (!KaijiangModels.Any())
                 return;
             int index = 1;
-            foreach (var model in Models)
+            foreach (var model in KaijiangModels)
             {
                 var item = new ListViewItem();
                 item.Text = index + "";
@@ -79,17 +98,29 @@ namespace ElevenX5
             }
         }
 
-        private void LoadData()
+        private void FillDanTuoMissingView()
         {
-            Models = ElevenX5Buz.GetModelFromFile();
-        }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.InitControls();
-            LoadData();
-            FillView();
+            listView3.Items.Clear();
+            if (!DanTuoModels.Any())
+                return;
+            var matchedModel = DanTuoModels.Where(a => a.MissingCount >= 8).ToList();
+            if(!matchedModel.Any())
+                return;
+            int index = 1;
+            foreach (var model in matchedModel)
+            {
+                var item = new ListViewItem();
+                item.Text = index + "";
+                item.SubItems.Add(model.DanTuoNo.ToSpliteString());
+                item.SubItems.Add(model.MissingCount+"期不符合");
+                this.listView3.Items.Add(item);
+                index++;
+            }
         }
 
+      
+
+        //录入开奖结果
         private void button1_Click(object sender, EventArgs e)
         {
             var issue = this.textBox1.Text.Trim();
@@ -98,18 +129,18 @@ namespace ElevenX5
             var no3 = this.textBox4.Text.Trim();
             var no4 = this.textBox5.Text.Trim();
             var no5 = this.textBox6.Text.Trim();
-            if (!CheckIssue(issue)
-                || !CheckBetNo(no1)
-                || !CheckBetNo(no2)
-                || !CheckBetNo(no3)
-                || !CheckBetNo(no4)
-                || !CheckBetNo(no5)
+            if (!issue.IsValidIssue()
+                || !no1.IsValidNumber()
+                || !no2.IsValidNumber()
+                || !no3.IsValidNumber()
+                || !no4.IsValidNumber()
+                || !no5.IsValidNumber()
                 )
             {
-                MessageBox.Show("输入的开奖期号或开奖号码不正确，请检查！", "提示", MessageBoxButtons.OK);
+                MessageBox.Show("录入的开奖期号或开奖号码不正确，请检查！", "提示", MessageBoxButtons.OK);
                 return;
             }
-            var model = new SscModel()
+            var model = new ElevenX5Model()
             {
                 IssueNo = issue.ToLong(),
                 BetNo = new List<int>()
@@ -119,94 +150,108 @@ namespace ElevenX5
             };
             if (model.BetNo.Distinct().Count() != 5)
             {
-                MessageBox.Show("输入开奖号码有重复，请检查！", "提示", MessageBoxButtons.OK);
+                MessageBox.Show("录入开奖号码有重复，请检查！", "提示", MessageBoxButtons.OK);
                 return;
             }
-            if (Models.Count == 0)
-                Models.Add(model);
+            if (KaijiangModels.Count == 0)
+                KaijiangModels.Add(model);
             else
             {
-                var replacemodel = Models.FirstOrDefault(x => x.IssueNo == model.IssueNo);
+                var replacemodel = KaijiangModels.FirstOrDefault(x => x.IssueNo == model.IssueNo);
                 if (replacemodel != null)
                 {
                     replacemodel.IssueNo = model.IssueNo;
                     replacemodel.BetNo = model.BetNo;
                 }
-                else if (Models.Count >= 20)
+                else if (KaijiangModels.Count >= 20)
                 {
-                    Models.RemoveAt(0);
-                    Models.Add(model);
+                    KaijiangModels.RemoveAt(0);
+                    KaijiangModels.Add(model);
                 }
                 else
                 {
-                    Models.Add(model);
+                    KaijiangModels.Add(model);
                 }
             }
-            ElevenX5Buz.SaveModelToFile(Models);
+            ElevenX5Buz.SaveModelToFile(KaijiangModels);
             FillView();
         }
 
-        private bool CheckIssue(string issue)
-        {
-            if (String.IsNullOrWhiteSpace(issue))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private bool CheckBetNo(string num)
-        {
-            if (String.IsNullOrWhiteSpace(num))
-            {
-                return false;
-            }
-            int no = 0;
-            if (!int.TryParse(num, out no))
-            {
-                return false;
-            }
-            if (!no.IsValidSscNumber())
-            {
-                return false;
-            }
-            return true;
-        }
-
+        //录入胆码和拖码
         private void button2_Click(object sender, EventArgs e)
+        {
+            if(!GetSettingDanTuo())
+                return;
+            GetCombinedBetNoByDanTuo();
+            FillCombinedView();
+            GetCombinedDanTuoNo();
+            CompareKaijiangWithDanTuo();
+            FillDanTuoMissingView();
+        }
+        // 根据胆拖生产196注
+        private void GetCombinedBetNoByDanTuo()
+        {
+            CombinedModels = ElevenX5Buz.GetCombinedBetNos(DanList, TuoList);
+        }
+        //根据UI获取胆拖设置
+        private bool  GetSettingDanTuo()
         {
             var dan1 = this.textBox7.Text.Trim();
             var dan2 = this.textBox8.Text.Trim();
-
             var tuo1 = this.textBox9.Text.Trim();
             var tuo2 = this.textBox10.Text.Trim();
             var tuo3 = this.textBox11.Text.Trim();
             var tuo4 = this.textBox12.Text.Trim();
 
-            if (!CheckBetNo(dan1)
-                || !CheckBetNo(dan2)
-                || !CheckBetNo(tuo1)
-                || !CheckBetNo(tuo2)
-                || !CheckBetNo(tuo3)
-                || !CheckBetNo(tuo4)
+            if (!dan1.IsValidNumber()
+                || !dan2.IsValidNumber()
+                || !tuo1.IsValidNumber()
+                || !tuo2.IsValidNumber()
+                || !tuo3.IsValidNumber()
+                || !tuo4.IsValidNumber()
                 )
             {
                 MessageBox.Show("输入胆码拖码不正确，请检查！", "提示", MessageBoxButtons.OK);
-                return;
+                return false;
             }
-            var all = new List<int> {dan1.ToInt(),dan2.ToInt(),tuo1.ToInt(),tuo2.ToInt(),tuo3.ToInt(),tuo4.ToInt()};
+            var all = new List<int> { dan1.ToInt(), dan2.ToInt(), tuo1.ToInt(), tuo2.ToInt(), tuo3.ToInt(), tuo4.ToInt() };
             if (all.Distinct().ToList().Count < 6)
             {
                 MessageBox.Show("输入胆码拖码有重复，请检查！", "提示", MessageBoxButtons.OK);
-                return;
+                return false;
             }
-
-            DanList = new List<int>() {dan1.ToInt(),dan2.ToInt()};
+            DanList = new List<int>() { dan1.ToInt(), dan2.ToInt() };
             TuoList = new List<int>() { tuo1.ToInt(), tuo2.ToInt(), tuo3.ToInt(), tuo4.ToInt() };
-
-            CombinedModels = SscCombineUtil.CombineBet(DanList, TuoList);
-            FillCombinedView();
-
+            return true;
         }
+        //根据胆拖获取胆拖组合
+        private void GetCombinedDanTuoNo()
+        {
+            var list = ElevenX5Buz.GetCombinedDanTuoNos(DanList, TuoList);
+            DanTuoModels = new List<DanTuoModel>();
+            foreach (var item in list)
+            {
+                     DanTuoModels.Add(new DanTuoModel()
+                     {
+                         MissingCount = 0,
+                         DanTuoNo = item
+                     });
+            }
+        }
+
+        private void CompareKaijiangWithDanTuo()
+        {
+            foreach (var danTuoModel in DanTuoModels)
+            {
+                foreach (var kaijiangModel in KaijiangModels)
+                {
+                    if (!kaijiangModel.BetNo.ContainsAllNo(danTuoModel.DanTuoNo))
+                    {
+                        danTuoModel.MissingCount += 1;
+                    }
+                }
+            }
+        }
+
     }
 }

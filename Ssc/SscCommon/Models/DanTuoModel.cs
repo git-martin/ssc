@@ -1,23 +1,21 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SscCommon.Models
 {
-    public class ElevenX5Model
+    public class DanTuoModel
     {
-        public long IssueNo { get; set; }
-        public List<int> BetNo { get; set; }
+        public long MissingCount { get; set; }
+        public List<int> DanTuoNo { get; set; }
 
-        public List<string> BetNoStr
+        public List<string> DanTuoNoStr
         {
             get
             {
                 var result = new List<string>();
-                if (BetNo.Any())
+                if (DanTuoNo.Any())
                 {
-                    foreach (var i in BetNo)
+                    foreach (var i in DanTuoNo)
                     {
                         if (i < 10)
                         {
@@ -31,6 +29,6 @@ namespace SscCommon.Models
                 }
                 return result;
             }
-        } 
+        }
     }
 }

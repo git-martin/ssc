@@ -13,9 +13,9 @@ namespace SscCommon.Buz
         protected static string RootPath = System.Environment.CurrentDirectory;
         protected static string BetFileName = "sys.no.dat";
         protected static string BetFilePath = System.IO.Path.Combine(RootPath, BetFileName);
-        public static List<SscModel> GetModelFromFile()
+        public static List<ElevenX5Model> GetModelFromFile()
         {
-            var result = new List<SscModel>();
+            var result = new List<ElevenX5Model>();
             if (!FileUtil.IsExistFile(BetFilePath))
             {
                 FileUtil.CreateFile(BetFilePath);
@@ -29,7 +29,7 @@ namespace SscCommon.Buz
                 foreach (var item in lst)
                 {
                     var bet = item.Split(',');
-                    var model = new SscModel()
+                    var model = new ElevenX5Model()
                     {
                         IssueNo = bet[0].ToLong(),
                         BetNo = new List<int>
@@ -47,7 +47,7 @@ namespace SscCommon.Buz
             return result;
         }
 
-        public static bool SaveModelToFile(List<SscModel> models)
+        public static bool SaveModelToFile(List<ElevenX5Model> models)
         {
             try
             {
@@ -69,6 +69,15 @@ namespace SscCommon.Buz
                 return false;
             }
 
+        }
+
+        public static List<List<int>> GetCombinedBetNos(List<int> danList, List<int> tuoList)
+        {
+           return SscCombineUtil.CombineBetNo(danList,tuoList);
+        }
+        public static List<List<int>> GetCombinedDanTuoNos(List<int> danList, List<int> tuoList)
+        {
+            return SscCombineUtil.CombineDanTuoNo(danList, tuoList);
         }
     }
 }

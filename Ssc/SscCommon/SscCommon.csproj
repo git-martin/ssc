@@ -39,6 +39,7 @@
     <Compile Include="Buz\ElevenX5Buz.cs" />
     <Compile Include="CommonUti\FileUtil.cs" />
     <Compile Include="CommonUti\PermutationAndCombination.cs" />
+    <Compile Include="Models\DanTuoModel.cs" />
     <Compile Include="Models\SscModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SscUtil\SscConst.cs" />

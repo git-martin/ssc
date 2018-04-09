@@ -6,7 +6,7 @@ namespace SscCommon.SscUtil
 {
     public class SscCombineUtil
     {
-        private static List<List<int>> CombineNumbers(List<int> danList,List<int> tuoList)
+        public static List<List<int>> CombineDanTuoNo(List<int> danList,List<int> tuoList)
         {
             danList.Sort();
             tuoList.Sort();
@@ -56,9 +56,9 @@ namespace SscCommon.SscUtil
             return combinedList;
         }
 
-        public static List<List<int>> CombineBet(List<int> danList, List<int> tuoList)
+        public static List<List<int>> CombineBetNo(List<int> danList, List<int> tuoList)
         {
-            var combinedList = CombineNumbers(danList,tuoList);
+            var combinedList = CombineDanTuoNo(danList,tuoList);
             var combinedBet = new List<List<int>>();
 
             var leftList = new List<int>();
