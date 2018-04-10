@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using SscCommon;
@@ -13,6 +14,10 @@ namespace ssc.test
     {
         static void Main(string[] args)
         {
+
+            var date = DateTime.MinValue;
+            DateTime.TryParseExact("180409", "yyMMdd",CultureInfo.CurrentCulture, DateTimeStyles.None, out date);
+
             var r1 = SscCombineUtil.CombineBetNo(new List<int> { 1, 2 }, new List<int> { 3, 4, 5, 6 });
             var r = r1.Distinct().ToList();
             var txt = "";

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace SscCommon.SscUtil
@@ -88,7 +89,6 @@ namespace SscCommon.SscUtil
             return long.Parse(num);
         }
       
-
         public static bool IsValidIssue(this string issue)
         {
             return IsIssueValie(issue);
@@ -110,7 +110,7 @@ namespace SscCommon.SscUtil
             if (issue.Length != 8)
                 return false;
             DateTime date = DateTime.MinValue;
-            if (!DateTime.TryParse("20" + issue.Substring(0, 6)+ " 00:00:00", out date))
+            if (!DateTime.TryParseExact(issue.Substring(0, 6), "yyMMdd", CultureInfo.CurrentCulture, DateTimeStyles.None, out date))
             {
                 return false;
             }
