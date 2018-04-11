@@ -37,6 +37,8 @@ namespace SscCommon.SscUtil
             }
             return true;
         }
+
+        
         public static int ToInt(this string num)
         {
             return int.Parse(num);
@@ -107,15 +109,15 @@ namespace SscCommon.SscUtil
         {
             if (string.IsNullOrWhiteSpace(issue))
                 return false;
-            if (issue.Length != 8)
-                return false;
-            DateTime date = DateTime.MinValue;
-            if (!DateTime.TryParseExact(issue.Substring(0, 6), "yyMMdd", CultureInfo.CurrentCulture, DateTimeStyles.None, out date))
-            {
-                return false;
-            }
+            //if (issue.Length != 8)
+            //    return false;
+            //DateTime date = DateTime.MinValue;
+            //if (!DateTime.TryParseExact(issue.Substring(0, 6), "yyMMdd", CultureInfo.CurrentCulture, DateTimeStyles.None, out date))
+            //{
+            //    return false;
+            //}
             int issueFlag = 0;
-            if (!int.TryParse(issue.Substring(6, 2), out issueFlag))
+            if (!int.TryParse(issue, out issueFlag))
             {
                 return false;
             }

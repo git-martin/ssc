@@ -31,7 +31,7 @@ namespace SscCommon.Buz
                     var bet = item.Split(',');
                     var model = new ElevenX5Model()
                     {
-                        IssueNo = bet[0].ToLong(),
+                        IssueNo = bet[0].ToInt(),
                         BetNo = new List<int>
                         {
                             bet[1].ToInt(),
@@ -40,6 +40,7 @@ namespace SscCommon.Buz
                             bet[4].ToInt(),
                             bet[5].ToInt(),
                         },
+                        Index = bet[6].ToInt(),
                     };
                     result.Add(model);
                 }
