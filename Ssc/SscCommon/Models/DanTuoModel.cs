@@ -1,21 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
-
 namespace SscCommon.Models
 {
     public class DanTuoModel
     {
-        public long MissingCount { get; set; }
-        public List<int> DanTuoNo { get; set; }
+        public int MissingCount { get; set; }
+        public List<int> DanTuoNums { get; set; }
 
-        public List<string> DanTuoNoStr
+        public List<string> DanTuoNumsStr
         {
             get
             {
                 var result = new List<string>();
-                if (DanTuoNo.Any())
+                if (DanTuoNums.Any())
                 {
-                    foreach (var i in DanTuoNo)
+                    foreach (var i in DanTuoNums)
                     {
                         if (i < 10)
                         {

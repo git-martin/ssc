@@ -40,14 +40,17 @@ namespace SscCommon.Buz
                             bet[4].ToInt(),
                             bet[5].ToInt(),
                         },
-                        Index = bet[6].ToInt(),
+                       
                     };
+                    if (bet.Length > 6)
+                    {
+                        model.Index = bet[6].ToInt();
+                    }
                     result.Add(model);
                 }
             }
             return result;
         }
-
         public static bool SaveModelToFile(List<ElevenX5Model> models)
         {
             try
@@ -71,7 +74,6 @@ namespace SscCommon.Buz
             }
 
         }
-
         public static List<List<int>> GetCombinedBetNos(List<int> danList, List<int> tuoList)
         {
            return SscCombineUtil.CombineBetNo(danList,tuoList);
@@ -80,5 +82,37 @@ namespace SscCommon.Buz
         {
             return SscCombineUtil.CombineDanTuoNo(danList, tuoList);
         }
+
+
+        public static List<AllDanTuoCombinedModel> CalculateAllDanTuoCombinationModels()
+        {
+            var result = new List<AllDanTuoCombinedModel>();
+            var dan2List = PermutationAndCombination<int>.GetCombination(SscConst.BetNumbers.ToArray(), 2);
+            foreach (var dan2 in dan2List)
+            {
+                var rest = SscConst.BetNumbers.ToList();
+                rest.RemoveAll(x => dan2.Contains(x));
+                var tuo4List = PermutationAndCombination<int>.GetCombination(rest.ToArray(), 4);
+                foreach (var tuo4 in tuo4List)
+                {
+                    var danNums = dan2.ToList();
+                    var tuoNums = tuo4.ToList();
+                    var tmp = GetCombinedDanTuoNos(danNums, tuoNums);
+                    var dantuoModels = tmp.Select(model => new DanTuoModel()
+                    {
+                        DanTuoNums = model, MissingCount = 0
+                    }).ToList();
+
+                    result.Add(new AllDanTuoCombinedModel()
+                                 {
+                                     DanNums = dan2.ToList(),
+                                     TuoNums = tuo4.ToList(),
+                                     DanTuoModel = dantuoModels
+                                     
+                                 });
+                }
+            }
+            return result;
+        } 
     }
 }

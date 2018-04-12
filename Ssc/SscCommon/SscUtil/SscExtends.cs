@@ -20,7 +20,7 @@ namespace SscCommon.SscUtil
         {
             return IsNumberValid(num);
         }
-        public static bool IsValidNumber(this string num)
+        public static bool IsValid11x5No(this string num)
         {
             if (String.IsNullOrWhiteSpace(num))
             {

@@ -103,6 +103,6 @@ namespace SscCommon.SscUtil
             }
             combinedBet.Reverse();
             return combinedBet;
-        }
+        }    
     }
 }

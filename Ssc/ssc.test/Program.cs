@@ -10,11 +10,19 @@ using SscCommon.SscUtil;
 
 namespace ssc.test
 {
+
+    public enum A
+    {
+        Wish=1,
+        Ali=2,
+    }
     class Program
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine(A.Wish.ToString());
+            //Console.WriteLine(r.Count);
+            Console.ReadLine();
             var date = DateTime.MinValue;
             DateTime.TryParseExact("180409", "yyMMdd",CultureInfo.CurrentCulture, DateTimeStyles.None, out date);
 
@@ -43,6 +51,7 @@ namespace ssc.test
 
             var mo = ElevenX5Buz.GetModelFromFile();
 
+            Console.WriteLine(A.Wish.ToString());
             Console.WriteLine(r.Count);
             Console.ReadLine();
         }      
