@@ -33,9 +33,6 @@ namespace ElevenX5
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox6 = new System.Windows.Forms.TextBox();
@@ -50,6 +47,7 @@ namespace ElevenX5
             this.listView1 = new System.Windows.Forms.ListView();
             this.gbMissing = new System.Windows.Forms.GroupBox();
             this.listView3 = new System.Windows.Forms.ListView();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gbKaijiang.SuspendLayout();
@@ -60,7 +58,7 @@ namespace ElevenX5
             // 
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox1.Location = new System.Drawing.Point(748, 12);
+            this.groupBox1.Location = new System.Drawing.Point(584, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(293, 687);
             this.groupBox1.TabIndex = 1;
@@ -69,9 +67,7 @@ namespace ElevenX5
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.textBox13);
-            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.textBox6);
@@ -85,39 +81,10 @@ namespace ElevenX5
             this.groupBox2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox2.Location = new System.Drawing.Point(16, 22);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(271, 215);
+            this.groupBox2.Size = new System.Drawing.Size(271, 218);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "录入开奖信息";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.ForeColor = System.Drawing.Color.Silver;
-            this.label10.Location = new System.Drawing.Point(141, 108);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(119, 14);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "不填则不用于计算";
-            // 
-            // textBox13
-            // 
-            this.textBox13.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox13.ForeColor = System.Drawing.Color.Blue;
-            this.textBox13.Location = new System.Drawing.Point(66, 105);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(66, 23);
-            this.textBox13.TabIndex = 13;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.Location = new System.Drawing.Point(18, 107);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 14);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "序号：";
             // 
             // label7
             // 
@@ -132,7 +99,7 @@ namespace ElevenX5
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1.Location = new System.Drawing.Point(21, 148);
+            this.button1.Location = new System.Drawing.Point(21, 116);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(236, 32);
             this.button1.TabIndex = 13;
@@ -227,6 +194,7 @@ namespace ElevenX5
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.listView1.ForeColor = System.Drawing.Color.Black;
+            this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.Location = new System.Drawing.Point(3, 19);
             this.listView1.Name = "listView1";
@@ -240,7 +208,7 @@ namespace ElevenX5
             this.gbMissing.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.gbMissing.Location = new System.Drawing.Point(238, 12);
             this.gbMissing.Name = "gbMissing";
-            this.gbMissing.Size = new System.Drawing.Size(290, 687);
+            this.gbMissing.Size = new System.Drawing.Size(320, 687);
             this.gbMissing.TabIndex = 53;
             this.gbMissing.TabStop = false;
             this.gbMissing.Text = "胆拖组合遗漏统计";
@@ -253,9 +221,20 @@ namespace ElevenX5
             this.listView3.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView3.Location = new System.Drawing.Point(3, 19);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(284, 665);
+            this.listView3.Size = new System.Drawing.Size(314, 665);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button2.Location = new System.Drawing.Point(21, 163);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(236, 32);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "清除开奖数据";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
@@ -298,9 +277,7 @@ namespace ElevenX5
         private System.Windows.Forms.GroupBox gbMissing;
         private System.Windows.Forms.ListView listView3;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -15,15 +15,12 @@ namespace ElevenX5
     public partial class Form1 : Form
     {
         protected List<ElevenX5Model> KaijiangModels { get; set; }
-        protected List<List<int>> CombinedModels { get; set; }
-        protected List<DanTuoModel> DanTuoModels { get; set; }
-        protected List<AllDanTuoCombinedModel> AllDanTuoCombinedModels { get; set; } 
+        protected List<AllDanTuoCombinedModel> AllDanTuoCombinedModels { get; set; }
 
         protected readonly int MaxKaijiangCount = 25;
         public Form1()
         {
             InitializeComponent();
-            SetInputStyle();
         }
 
         private void SetInputStyle()
@@ -39,24 +36,24 @@ namespace ElevenX5
             foreach (var textBox in boxs)
             {
                 textBox.ForeColor = Color.Red;
-                textBox.Leave += textBox_Leave;
-                //textbox.TextChanged += Textbox_TextChanged;
+                //textBox.Leave += textBox_Leave;
+                textBox.TextChanged += Textbox_TextChanged;
             }
 
-//            this.label9.Text = @"录入说明:
-//
-//1.如果期次相同，则会替换以前录入的对
-//  应期次开奖数据
-//
-//2.如果序号大于20，则会替换现有的序号
-//  排序，序号是1的将会替换掉；
-//> 如现有序号是1....20,你填入21，则序
-//  号是2的变成1，序号是20的变成19，当
-//  前录入的序号变成20
-//
-//3.如果序号相同，则以新的序号为准
-//> 如以前第17期的序号是6，现在录入第19
-//  期序号也为6，那么第17期的序号将作废";
+            //            this.label9.Text = @"录入说明:
+            //
+            //1.如果期次相同，则会替换以前录入的对
+            //  应期次开奖数据
+            //
+            //2.如果序号大于20，则会替换现有的序号
+            //  排序，序号是1的将会替换掉；
+            //> 如现有序号是1....20,你填入21，则序
+            //  号是2的变成1，序号是20的变成19，当
+            //  前录入的序号变成20
+            //
+            //3.如果序号相同，则以新的序号为准
+            //> 如以前第17期的序号是6，现在录入第19
+            //  期序号也为6，那么第17期的序号将作废";
         }
 
         private void Textbox_TextChanged(object sender, EventArgs e)
@@ -79,7 +76,7 @@ namespace ElevenX5
             var no = box.Text.Trim();
             if (no.IsValid11x5No())
             {
-                box.Text = no.PadLeft(2,'0');
+                box.Text = no.PadLeft(2, '0');
             }
         }
 
@@ -91,9 +88,9 @@ namespace ElevenX5
             this.listView1.GridLines = true;
             this.listView1.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
 
-            this.listView3.Columns.Add("", 30, HorizontalAlignment.Center);
-            this.listView3.Columns.Add("不符合的胆拖", 120, HorizontalAlignment.Left);
-            this.listView3.Columns.Add("不符期数", 100, HorizontalAlignment.Center);
+            this.listView3.Columns.Add("", 40, HorizontalAlignment.Center);
+            this.listView3.Columns.Add("不符合的胆拖", 170, HorizontalAlignment.Center);
+            this.listView3.Columns.Add("不符期数", 80, HorizontalAlignment.Center);
             this.listView3.GridLines = true;
             this.listView3.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
 
@@ -109,25 +106,24 @@ namespace ElevenX5
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.SetInputStyle();
             this.InitControls();
-            LoadInitData();
-            FillKaijiangView();
+            this.LoadInitData();
+            this.FillKaijiangView();
+            this.FillDanTuoMissingView();
         }
-
         private void LoadInitData()
         {
             KaijiangModels = ElevenX5Buz.GetModelFromFile();
             AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
-
         }
-
-        private void ModelsSort()
+        private void KaijiangModelsSort()
         {
             KaijiangModels = KaijiangModels.OrderBy(s => s.IssueNo).ToList();
         }
         private void FillKaijiangView()
         {
-            ModelsSort();
+            KaijiangModelsSort();
             listView1.Items.Clear();
             if (!KaijiangModels.Any())
                 return;
@@ -137,22 +133,23 @@ namespace ElevenX5
                 item.UseItemStyleForSubItems = false;
                 item.Text = model.IssueNo.ToString().PadLeft(2, '0');
                 item.SubItems.Add(model.BetNo.ToSpliteString());
-                var index = model.Index == 0 ? "" : model.Index.ToString();
-                item.SubItems.Add(index);
-             
+                //var index = model.Index == 0 ? "" : model.Index.ToString();
+                //item.SubItems.Add(index);
+
                 item.SubItems[0].ForeColor = Color.Blue;
                 item.SubItems[1].ForeColor = Color.Red;
-                item.SubItems[2].ForeColor = Color.DarkGreen;
+                //item.SubItems[2].ForeColor = Color.DarkGreen;
                 this.listView1.Items.Add(item);
             }
         }
-
         private void FillDanTuoMissingView()
         {
             listView3.Items.Clear();
-            if (!DanTuoModels.Any())
+            if (!AllDanTuoCombinedModels.Any())
                 return;
-            var matchedModel = DanTuoModels.Where(a => a.MissingCount >= 8).ToList();
+            CalculateMissing();
+            //var matchedModel = AllDanTuoCombinedModels.Where(a => a.DanTuoModel.All(x => x.MissingCount>8)).ToList();
+            var matchedModel = AllDanTuoCombinedModels.Where(a => a.MinMissing >= 8).OrderBy(x => x.MinMissing).ToList();
             if (!matchedModel.Any())
                 return;
             int index = 1;
@@ -161,23 +158,57 @@ namespace ElevenX5
                 var item = new ListViewItem();
                 item.UseItemStyleForSubItems = false;
                 item.Text = index + "";
-                item.SubItems.Add(model.DanTuoNums.ToSpliteString());
-                item.SubItems.Add(model.MissingCount.ToString());
+                item.SubItems.Add(model.DanTuoString);
+                item.SubItems.Add(model.MinMissing.ToString());
                 item.SubItems[0].ForeColor = Color.Gray;
                 item.SubItems[1].ForeColor = Color.Red;
                 item.SubItems[2].ForeColor = Color.OrangeRed;
-                item.SubItems[2].Font = new Font(item.SubItems[2].Font.FontFamily,10.5F,FontStyle.Bold);
+                item.SubItems[2].Font = new Font(item.SubItems[2].Font.FontFamily, 10.5F, FontStyle.Bold);
                 this.listView3.Items.Add(item);
                 index++;
             }
         }
-
-
-
+        private void CalculateMissing()
+        {
+            if (KaijiangModels.Count <8)
+                return;
+            KaijiangModelsSort();
+            AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
+            foreach (var model196 in AllDanTuoCombinedModels) //N 个196组合
+            {
+                foreach (var danTuoModel in model196.DanTuoModel)//取一个196组合
+                {
+                    int maxMissing = 0;
+                    int currentMissing = 0;
+                    for (int i = 0; i < KaijiangModels.Count; i++) //每个组合和开奖数据对比
+                    {
+                        var kaijiangModel = KaijiangModels[i];
+                        if (!kaijiangModel.BetNo.ContainsAllNo(danTuoModel.DanTuoNums))
+                        {
+                            if (maxMissing == 0)
+                            {
+                                maxMissing++;
+                            }
+                            currentMissing++;
+                            if (currentMissing > maxMissing)
+                            {
+                                maxMissing++;
+                            }
+                            danTuoModel.MissingCount += 1;
+                        }
+                        else
+                        {
+                            currentMissing = 0;
+                        }
+                    }
+                    danTuoModel.MissingCount = maxMissing;
+                }
+            }
+        }
         //录入开奖结果
         private void button1_Click(object sender, EventArgs e)
         {
-            if(!CheckSb())
+            if (!CheckSb())
                 return;
             var issue = this.textBox1.Text.Trim();
             var no1 = this.textBox2.Text.Trim();
@@ -185,7 +216,6 @@ namespace ElevenX5
             var no3 = this.textBox4.Text.Trim();
             var no4 = this.textBox5.Text.Trim();
             var no5 = this.textBox6.Text.Trim();
-            var index = this.textBox13.Text.Trim();
             var indexNum = 0;
             if (!issue.IsValidIssue()
                 || !no1.IsValid11x5No()
@@ -198,10 +228,10 @@ namespace ElevenX5
                 MessageBox.Show("录入的开奖期号或开奖号码不正确，请检查！", "提示", MessageBoxButtons.OK);
                 return;
             }
-            if (!string.IsNullOrWhiteSpace(index))
-            {
-                indexNum = index.ToInt();
-            }
+            //if (!string.IsNullOrWhiteSpace(index))
+            //{
+            //    indexNum = index.ToInt();
+            //}
             var model = new ElevenX5Model()
             {
                 IssueNo = issue.ToInt(),
@@ -210,7 +240,7 @@ namespace ElevenX5
                     no1.ToInt(),no2.ToInt(),no3.ToInt(),no4.ToInt(),no5.ToInt()
                 },
                 Index = indexNum
-                
+
             };
             if (model.BetNo.Distinct().Count() != 5)
             {
@@ -227,7 +257,7 @@ namespace ElevenX5
                     replacemodel.IssueNo = model.IssueNo;
                     replacemodel.BetNo = model.BetNo;
                 }
-                else if (KaijiangModels.Count >= 30)
+                if (KaijiangModels.Count >= MaxKaijiangCount)
                 {
                     KaijiangModels.RemoveAt(0);
                     KaijiangModels.Add(model);
@@ -239,31 +269,45 @@ namespace ElevenX5
             }
             ElevenX5Buz.SaveModelToFile(KaijiangModels);
             FillKaijiangView();
-
-            //GetCombinedDanTuoNo();
-            CompareKaijiangWithDanTuo();
             FillDanTuoMissingView();
+            ResetTextBox(true);
+
         }
 
-     
-        //根据胆拖获取胆拖组合
-        private void GetCombinedDanTuoNo(List<int> DanList, List<int> TuoList)
+        private void ResetTextBox(bool autoSetIssue=false)
         {
-            var list = ElevenX5Buz.GetCombinedDanTuoNos(DanList, TuoList);
-            DanTuoModels = new List<DanTuoModel>();
-            foreach (var item in list)
+           
+            this.textBox1.Text = "";
+            this.textBox2.Text = "";
+            this.textBox3.Text = "";
+            this.textBox4.Text = "";
+            this.textBox5.Text = "";
+            this.textBox6.Text = "";
+            this.textBox1.Focus();
+            if (autoSetIssue)
             {
-                DanTuoModels.Add(new DanTuoModel()
-                {
-                    MissingCount = 0,
-                    DanTuoNums = item
-                });
+                var currentIssue = KaijiangModels.Max(x => x.IssueNo);
+                this.textBox1.Text = (currentIssue + 1).ToString();
+                this.textBox2.Focus();
+            }
+            else
+            {
+                this.textBox1.Focus();
             }
         }
 
-        private void CompareKaijiangWithDanTuo()
+        private void button2_Click(object sender, EventArgs e)
         {
-            foreach (var danTuoModel in DanTuoModels)
+            KaijiangModels = new List<ElevenX5Model>();
+            ElevenX5Buz.SaveModelToFile(KaijiangModels);
+            FillKaijiangView();
+            AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
+            FillDanTuoMissingView();
+        }
+
+        private void CompareKaijiangWithDanTuo196(AllDanTuoCombinedModel model196)
+        {
+            foreach (var danTuoModel in model196.DanTuoModel)
             {
                 int maxMissing = 0;
                 int currentMissing = 0;
@@ -288,20 +332,8 @@ namespace ElevenX5
                         currentMissing = 0;
                     }
                 }
-
                 danTuoModel.MissingCount = maxMissing;
             }
-            DanTuoModels = DanTuoModels.OrderBy(s => s.MissingCount).ToList();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (!CheckSb())
-                return;
-
-            //GetCombinedDanTuoNo();
-            CompareKaijiangWithDanTuo();
-            FillDanTuoMissingView();
         }
 
         private bool CheckSb()
@@ -311,5 +343,7 @@ namespace ElevenX5
                 return false;
             return true;
         }
+
+      
     }
 }
