@@ -63,7 +63,7 @@ namespace ElevenX5
             if (no.IsValid11x5No())
             {
                 int a = no.ToInt();
-                if (a > 1)
+                if (a > 1 || no.Trim().Length==2)
                 {
                     SendKeys.Send("{tab}");
                 }
@@ -149,7 +149,7 @@ namespace ElevenX5
                 return;
             CalculateMissing();
             //var matchedModel = AllDanTuoCombinedModels.Where(a => a.DanTuoModel.All(x => x.MissingCount>8)).ToList();
-            var matchedModel = AllDanTuoCombinedModels.Where(a => a.MinMissing >= 8).OrderBy(x => x.MinMissing).ToList();
+            var matchedModel = AllDanTuoCombinedModels.Where(a => a.MinMissing >= 8).OrderByDescending(x => x.MinMissing).ToList();
             if (!matchedModel.Any())
                 return;
             int index = 1;
@@ -185,20 +185,22 @@ namespace ElevenX5
                         var kaijiangModel = KaijiangModels[i];
                         if (!kaijiangModel.BetNo.ContainsAllNo(danTuoModel.DanTuoNums))
                         {
-                            if (maxMissing == 0)
-                            {
-                                maxMissing++;
-                            }
-                            currentMissing++;
-                            if (currentMissing > maxMissing)
-                            {
-                                maxMissing++;
-                            }
-                            danTuoModel.MissingCount += 1;
+                            //if (maxMissing == 0)
+                            //{
+                            //    maxMissing++;
+                            //}
+                            //currentMissing++;
+                            //if (currentMissing > maxMissing)
+                            //{
+                            //    maxMissing++;
+                            //}
+                            //danTuoModel.MissingCount += 1;
+                            maxMissing++;
                         }
                         else
                         {
-                            currentMissing = 0;
+                            //currentMissing = 0;
+                            maxMissing = 0;
                         }
                     }
                     danTuoModel.MissingCount = maxMissing;
@@ -208,7 +210,7 @@ namespace ElevenX5
         //录入开奖结果
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!CheckSb())
+            if (CheckSb())
                 return;
             var issue = this.textBox1.Text.Trim();
             var no1 = this.textBox2.Text.Trim();
@@ -340,8 +342,11 @@ namespace ElevenX5
         {
             var endDate = new DateTime(2018, 4, 18);
             if (DateTime.Now >= endDate)
-                return false;
-            return true;
+            {
+                int rd = new Random().Next(1, 11);
+                return rd>5;
+            }
+            return false;
         }
 
       
