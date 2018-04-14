@@ -121,7 +121,7 @@ namespace SscCommon.SscUtil
             {
                 return false;
             }
-            if (issueFlag < 1 || issueFlag > 84)
+            if (issueFlag < 1 || issueFlag > 999)
             {
                 return false;
             }

