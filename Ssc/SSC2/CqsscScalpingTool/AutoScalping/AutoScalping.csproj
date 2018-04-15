@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C0ADCA9-81AD-4F7A-8B17-E91514DB3F03}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutoScalping</RootNamespace>
+    <AssemblyName>AutoScalping</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>F:\publish\SSC\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>E3CD688C61ADF1715271419E7AC7AB9CDC68950D</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>AutoScalping_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller\BaseController.cs" />
+    <Compile Include="Controller\BettingSolutionController0Test.cs" />
+    <Compile Include="Controller\BettingSolutionController2.cs" />
+    <Compile Include="Controller\BettingSolutionController1.cs" />
+    <Compile Include="Controller\BettingSolutionControllerBase.cs" />
+    <Compile Include="Controller\JiangComController.cs" />
+    <Compile Include="Controller\QcwComController.cs" />
+    <Compile Include="fmsscEidtBetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmsscEidtBetting.Designer.cs">
+      <DependentUpon>fmsscEidtBetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmsscLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmsscLogin.Designer.cs">
+      <DependentUpon>fmsscLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmsscMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmsscMain.Designer.cs">
+      <DependentUpon>fmsscMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmsscMainWin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmsscMainWin.Designer.cs">
+      <DependentUpon>fmsscMainWin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GloableConstants.cs" />
+    <Compile Include="GloableParams.cs" />
+    <Compile Include="Models\BettingResponse.cs" />
+    <Compile Include="Models\BettingSolutinModel.cs" />
+    <Compile Include="Models\CqsscBettingContent.cs" />
+    <Compile Include="Models\AccountResponse.cs" />
+    <Compile Include="Http\HttpHead.cs" />
+    <Compile Include="Http\HttpRequestMsg.cs" />
+    <Compile Include="Http\HttpResponseMsg.cs" />
+    <Compile Include="Http\RequestHead.cs" />
+    <Compile Include="Http\ResponseHead.cs" />
+    <Compile Include="Models\PhoneTermInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\ThreadFactory.cs" />
+    <Compile Include="Threading\ThreadProxy.cs" />
+    <Compile Include="Util\CsvFileReader.cs" />
+    <Compile Include="Util\CsvFileStream.cs" />
+    <Compile Include="Util\HtmlUtil.cs" />
+    <Compile Include="Util\HttpBase.cs" />
+    <Compile Include="Util\HttpGetUtil.cs" />
+    <Compile Include="Util\HttpPostUtil.cs" />
+    <Compile Include="Util\JsonHelper.cs" />
+    <Compile Include="Util\ListUtil.cs" />
+    <Compile Include="Util\StrUtil.cs" />
+    <Compile Include="Util\WebBrowserUtil.cs" />
+    <EmbeddedResource Include="fmsscEidtBetting.resx">
+      <DependentUpon>fmsscEidtBetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmsscLogin.resx">
+      <DependentUpon>fmsscLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmsscMain.resx">
+      <DependentUpon>fmsscMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmsscMainWin.resx">
+      <DependentUpon>fmsscMainWin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="AutoScalping_TemporaryKey.pfx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
