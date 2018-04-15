@@ -8,14 +8,18 @@ namespace SscCommon.SscUtil
     {
         public static List<List<int>> CombineDanTuoNo(List<int> danList,List<int> tuoList)
         {
-            danList.Sort();
-            tuoList.Sort();
+            //danList.Sort();
+            //tuoList.Sort();
+            //danList.Reverse();
+            //tuoList.Reverse();
             var combinedList = new List<List<int>>();
             var a2 = PermutationAndCombination<int>.GetCombination(tuoList.ToArray(), 2);
             var a3 = PermutationAndCombination<int>.GetCombination(tuoList.ToArray(), 3);
             var a4 = PermutationAndCombination<int>.GetCombination(tuoList.ToArray(), 4);
 
-            var d1 = PermutationAndCombination<int>.GetCombination(danList.ToArray(), 1);
+            var danListCopy = danList.ToList();
+            danListCopy.Reverse(); //防止倒叙
+            var d1 = PermutationAndCombination<int>.GetCombination(danListCopy.ToArray(), 1);
             var d2 = PermutationAndCombination<int>.GetCombination(danList.ToArray(), 2);
             var finalDan = new List<int[]>();
             finalDan.AddRange(d1);

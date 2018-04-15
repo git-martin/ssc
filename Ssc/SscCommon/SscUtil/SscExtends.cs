@@ -16,6 +16,15 @@ namespace SscCommon.SscUtil
             return subNumList.All(i => numList.Contains(i));
         }
 
+        public static List<int> SpliteStringToList(this string  spliteString)
+        {
+            var result = new List<int>();
+            if (string.IsNullOrWhiteSpace(spliteString))
+                return result;
+            var stringList = spliteString.Split(',');
+            result.AddRange(stringList.Select(s => s.ToInt()));
+            return result;
+        } 
         public static bool IsValidNumber(this int num)
         {
             return IsNumberValid(num);
@@ -121,7 +130,7 @@ namespace SscCommon.SscUtil
             {
                 return false;
             }
-            if (issueFlag < 1 || issueFlag > 999)
+            if (issueFlag < 1 || issueFlag > 1984)
             {
                 return false;
             }

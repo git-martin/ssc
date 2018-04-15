@@ -89,9 +89,16 @@ namespace ElevenX5
             this.listView1.GridLines = true;
             this.listView1.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
 
+            this.listView2.Columns.Add("", 30, HorizontalAlignment.Center);
+            this.listView2.Columns.Add("投注号码", 120, HorizontalAlignment.Center);
+            this.listView2.GridLines = true;
+            this.listView2.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
+
             this.listView3.Columns.Add("", 40, HorizontalAlignment.Center);
             this.listView3.Columns.Add("不符合的胆拖", 170, HorizontalAlignment.Center);
             this.listView3.Columns.Add("不符期数", 80, HorizontalAlignment.Center);
+            this.listView3.Columns.Add("", 0, HorizontalAlignment.Center);
+            this.listView3.Columns.Add("", 0, HorizontalAlignment.Center);
             this.listView3.GridLines = true;
             this.listView3.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
 
@@ -149,6 +156,7 @@ namespace ElevenX5
         private void FillDanTuoMissingView()
         {
             listView3.Items.Clear();
+            listView2.Items.Clear();
             if (!AllDanTuoCombinedModels.Any())
                 return;
             CalculateMissing();
@@ -164,6 +172,9 @@ namespace ElevenX5
                 item.Text = index + "";
                 item.SubItems.Add(model.DanTuoString);
                 item.SubItems.Add(model.MinMissing.ToString());
+
+                item.SubItems.Add(model.DanNums.ToSpliteString());
+                item.SubItems.Add(model.TuoNums.ToSpliteString());
                 item.SubItems[0].ForeColor = Color.Gray;
                 item.SubItems[1].ForeColor = Color.Red;
                 item.SubItems[2].ForeColor = Color.OrangeRed;
@@ -400,6 +411,50 @@ namespace ElevenX5
             FillKaijiangView();
             AllDanTuoCombinedModels = ElevenX5Buz.CalculateAllDanTuoCombinationModels();
             FillDanTuoMissingView();
+        }
+
+        private void listView3_Click(object sender, EventArgs e)
+        {
+            //if (this.listView3.SelectedItems.Count > 0)
+            //{
+            //    var s = this.listView3.SelectedItems;
+            //    foreach (var a in s)
+            //    {
+            //        MessageBox.Show(a.);
+            //    }
+               
+            //}
+            
+        }
+
+        private void listView3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.listView3.FocusedItem != null && this.listView3.SelectedIndices.Count > 0)//这个if必须的，不然会得到值但会报错  
+            {
+                this.listView2.Items.Clear();
+                var selectedItem = this.listView3.FocusedItem;
+                var danList = selectedItem.SubItems[3].Text;
+                var tuoList = selectedItem.SubItems[4].Text;
+
+                var betNoList = ElevenX5Buz.GetCombinedBetNos(danList.SpliteStringToList(), tuoList.SpliteStringToList());
+                var index = 1;
+                StringBuilder sb = new StringBuilder();
+                foreach (var bet in betNoList)
+                {
+                    sb.AppendLine(bet.ToSpliteString());
+                    var item = new ListViewItem();
+                    item.UseItemStyleForSubItems = false;
+                    item.Text = index + "";
+                    item.SubItems.Add(bet.ToSpliteString());
+                    index++;
+                    item.SubItems[0].ForeColor = Color.Gray;
+                    item.SubItems[1].ForeColor = Color.Red;
+                    //item.SubItems[2].ForeColor = Color.DarkGreen;
+                    this.listView2.Items.Add(item);
+                }
+                var copyString = sb.ToString();
+                Clipboard.SetText(copyString);
+            }
         }
     }
 }
