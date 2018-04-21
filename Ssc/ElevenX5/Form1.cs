@@ -346,7 +346,7 @@ namespace ElevenX5
         //最后付款日期，否则程序不定期报错
         private bool CheckSb()
         {
-            var endDate = new DateTime(2018, 4, 21);
+            var endDate = new DateTime(2018,5, 5);
             if (DateTime.Now >= endDate)
             {
                 int rd = new Random().Next(1, 11);
@@ -453,8 +453,26 @@ namespace ElevenX5
                     this.listView2.Items.Add(item);
                 }
                 var copyString = sb.ToString();
-                Clipboard.SetText(copyString);
+                if (this.checkBox1.Checked)
+                {
+                    Clipboard.SetText(copyString);
+                }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("确认要复制196注投注号码吗？", "提示", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                return;
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in listView2.Items)
+            {
+                var t = item as ListViewItem;
+                var no = t.SubItems[1].Text;
+                sb.AppendLine(no);
+            }
+            var copyString = sb.ToString();
+             Clipboard.SetText(copyString);
         }
     }
 }
