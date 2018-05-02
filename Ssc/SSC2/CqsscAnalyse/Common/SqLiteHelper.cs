@@ -6,7 +6,7 @@ using System.Data.SQLite;
 
 namespace CqsscAnalyse.Common
 {
-
+    //CREATE TABLE cqssc (sync NUMERIC, opentime TEXT, ge NUMERIC, shi NUMERIC, bai NUMERIC, qian NUMERIC, wan NUMERIC, opencode TEXT, issue INTEGER PRIMARY KEY);
     public class SqLiteHelper
     {
         //数据库连接字符串(web.config来配置)，可以动态更改connectionString支持多数据库.		

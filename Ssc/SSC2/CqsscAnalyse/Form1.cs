@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using CqsscAnalyse.Common;
 using CqsscAnalyse.Controller;
 using CqsscAnalyse.Model;
 using CqsscAnalyse.Threading;
@@ -12,7 +14,7 @@ namespace CqsscAnalyse
     public partial class Form1 : Form
     {
 
-        private static List<IssueModel> _currentCalculateIssues = new List<IssueModel>(); 
+        private static List<IssueModel> _currentCalculateIssues = new List<IssueModel>();
         public Form1()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace CqsscAnalyse
             }
             btnAnalyse.BeginInvoke(
                 new MethodInvoker(
-                delegate()
+                delegate ()
                 {
                     btnAnalyse.Text = "计算中，请勿动........";
                     btnAnalyse.Enabled = false;
@@ -54,27 +56,164 @@ namespace CqsscAnalyse
                   int minAnalyseIssues = int.Parse(System.Configuration.ConfigurationManager.AppSettings["minIssueCount"]);
                   int maxAnalyseIssues = int.Parse(System.Configuration.ConfigurationManager.AppSettings["maxIssueCount"]);
 
-                 // List<IssueModel> data = LoadData(GlobalConstants.ReadDataDays);
-                  
+                  // List<IssueModel> data = LoadData(GlobalConstants.ReadDataDays);
+
                   var data = _currentCalculateIssues;
-                  string msg = string.Format("基于【{0}】期【{1}】分析，结果如下：",data[0].StrIssue,data[0].OpenCode);
+                  string msg = string.Format("基于【{0}】期【{1}】分析，结果如下：", data[0].StrIssue, data[0].OpenCode);
                   this.richTextBox10.Text = msg;
                   this.richTextBox1.Text = msg;
                   this.richTextBox100.Text = msg;
                   for (int i = minAnalyseIssues; i <= maxAnalyseIssues; i++)
                   {
                       AnalyseDataGe(data, i);
-                      AnalyseDataShi(data,i);
-                      AnalyseDataBai(data,i);
+                      AnalyseDataShi(data, i);
+                      AnalyseDataBai(data, i);
                   }
                   this.btnAnalyse.Enabled = true;
                   this.btnAnalyse.Text = "开始分析";
                   UpdateInfo("百、十、个位分析完成！");
+
+                  MoniBet();
+                  MoniFrm fm = new MoniFrm();
+                  fm.Data = _currentCalculateIssues;
+                  fm.ShowDialog();
               }
            ));
             //AnalyseData(data, 10);
+        }
+
+        private void MoniBet()
+        {
+            this.listView1.Items.Clear();
+            var data = _currentCalculateIssues;
+            var dicBet = new Dictionary<int, List<int>>
+            {
+                {0,new List<int>() },
+                {1,new List<int>() {2,3,4,7,9} },
+                {2,new List<int>() {1,3,7,9} },
+                {3,new List<int>() {6,9,2,1,8,7} },
+                {4,new List<int>() {5,6,1,7,9} },
+                {5,new List<int>() {6,4,7,8} },
+                {6,new List<int>() {3,9,4,5,0} },
+                {7,new List<int>() {2,5,8,9,4,1,3} },
+                {8,new List<int>() {5,7,3,4,1} },
+                {9,new List<int>() {3,6,1,4,7} }
+            };
+
+            var totalBetItem = 0;
+            var totalBetItemZhong = 0;
+            var totalBetItemPrice = 0;
+            var totleBetItemGain = 0;
+            for (int i = 0; i < data.Count; i++)
+            {
+                var preIndex = i + 1;
+                if(preIndex>data.Count-1)
+                    break;
+                var preGe = data[preIndex].Ge;
+                var preShi = data[preIndex].Shi;
+
+                if (preGe == 0 || preShi == 0 || preGe==preShi)// || Math.Abs(preShi-preGe)>4)
+                {
+                    var item1 = new ListViewItem();
+                    item1.UseItemStyleForSubItems = false;
+                    item1.Text = i + "";
+                    item1.SubItems.Add(data[i].Issue.ToString());
+                    item1.SubItems.Add(data[i].OpenCode);
+                    item1.SubItems.Add("");
+                    item1.SubItems.Add("");
+                    item1.SubItems.Add("");
+                    item1.SubItems[0].ForeColor = Color.Gray;
+                    //item.SubItems[1].ForeColor = Color.Blue;
+                    //item.SubItems[2].ForeColor = Color.Red;
+                    this.listView1.Items.Add(item1);
+                    continue;
+                }
+                   
+                var betGe = dicBet[preGe];
+                var betShi = dicBet[preShi];
+                // 加上前10期数据
+                //var ge10 = GetPre10Num(data, i, 5);
+                //var shi10 = GetPre10Num(data, i, 4);
+                //foreach (var i1 in ge10)
+                //{
+                //    if(!betGe.Contains(i1)) betGe.Add(i1);
+                //}
+                //foreach (var i1 in shi10)
+                //{
+                //    if (!betShi.Contains(i1)) betShi.Add(i1);
+                //}
+
+                var currIndex = i;
+                var currGe = data[currIndex].Ge;
+                var currShi = data[currIndex].Shi;
+
+                var isZhong = betGe.Contains(currGe) && betShi.Contains(currShi);
+               
+                var betItem = 0;
+             
+
+                foreach (var ge in betGe)
+                {
+                    foreach (var shi in betShi)
+                    {
+                        if (ge == shi)
+                            continue;
+                        else
+                            betItem++;
+                    }
+                }
+                var betMoeny = betItem*2;
+                var gain = 0;
+                if (isZhong)
+                {
+                    gain = 196;
+                    totalBetItemZhong++;
+                }
+                totalBetItem ++;
+                totalBetItemPrice += betMoeny;
+                totleBetItemGain += gain;
+
+                var item = new ListViewItem();
+                item.UseItemStyleForSubItems = false;
+                item.Text = i + "";
+                item.SubItems.Add(data[i].Issue.ToString());
+                item.SubItems.Add(data[i].OpenCode);
+                item.SubItems.Add(betShi.IntListToString()+","+betGe.IntListToString());
+                item.SubItems.Add(betMoeny + "");
+                item.SubItems.Add(isZhong?"中奖196":"");
+                item.SubItems[0].ForeColor = Color.Gray;
+                //item.SubItems[1].ForeColor = Color.Blue;
+                //item.SubItems[2].ForeColor = Color.Red;
+                this.listView1.Items.Add(item);
+            }
+            this.linkLabel1.Text =
+                $"总投注金额：{totalBetItemPrice},投注次数：{totalBetItem},中奖次数{totalBetItemZhong}，中奖金额：{totleBetItemGain}";
+
 
         }
+
+        private List<int> GetPre10Num(List<IssueModel> data,int currentIndex, int position)
+        {
+            var count = data.Count;
+            var pre10index = currentIndex + 10;
+            if (pre10index > count - 1)
+                pre10index = count - 1;
+            var result = new List<int>();
+            for (int i = currentIndex + 1; i <= pre10index; i++)
+            {
+                if(i>count-1)
+                    break;
+                if (position == 5)
+                {
+                    result.Add(data[i].Ge);
+                }else if (position == 4)
+                {
+                    result.Add(data[i].Shi);
+                }
+            }
+            return result;
+
+        } 
 
         private void AnalyseDataGe(List<IssueModel> data, int comparedIssueCount)
         {
@@ -83,9 +222,9 @@ namespace CqsscAnalyse
             bool showCount0 = System.Configuration.ConfigurationManager.AppSettings["isShowCount0"].ToLower() == "true";
 
 
-         
+
             ReadyDataModel rm = GetDataAnalyse.GetModelsReadyGe(data, comparedIssueCount);
-            if(data == null || data.Count == 0)
+            if (data == null || data.Count == 0)
             {
                 MessageBox.Show("从网上获取数据失败！", "错误", MessageBoxButtons.OK);
                 return;
@@ -128,7 +267,7 @@ namespace CqsscAnalyse
                     this.richTextBox1.Text += "历史3路：" + cmp.lu3Cmp + "\r\n";
                 }
                 long cmpedIssue = cmp.beginCompareIssue;
-                long nextIssue = cmp.nextIssueData.Issue;               
+                long nextIssue = cmp.nextIssueData.Issue;
                 if (cmp.daxiaoCmp == baseModel.daxiaoBase)
                 {
                     dxAppear++;
@@ -139,7 +278,7 @@ namespace CqsscAnalyse
                         this.richTextBox1.Text += string.Format("大小:{0}与历史{1}后{2}期相同,{3}期出【{4}】\r\n",
                         baseIssue, cmpedIssue, comparedIssueCount, nextIssue, isDa ? "大" : "小");
                     }
-                        
+
                 }
                 if (cmp.danshuangCmp == baseModel.danshuangBase)
                 {
@@ -151,7 +290,7 @@ namespace CqsscAnalyse
                         this.richTextBox1.Text += string.Format("单双:{0}与历史{1}后{2}期相同,{3}期出【{4}】\r\n",
                        baseIssue, cmpedIssue, comparedIssueCount, nextIssue, isDan ? "单" : "双");
                     }
-                   
+
                 }
                 if (cmp.zhiheCmp == baseModel.zhiheBase)
                 {
@@ -163,7 +302,7 @@ namespace CqsscAnalyse
                         this.richTextBox1.Text += string.Format("质合:{0}与历史{1}后{2}期相同,{3}期出【{4}】\r\n",
                        baseIssue, cmpedIssue, comparedIssueCount, nextIssue, isZhi ? "质" : "合");
                     }
-                   
+
                 }
                 if (cmp.lu3Cmp == baseModel.lu3Base)
                 {
@@ -186,11 +325,11 @@ namespace CqsscAnalyse
                         this.richTextBox1.Text += string.Format("路数:{0}与历史{1}后{2}期相同,{3}期出【{4}】\r\n",
                         baseIssue, cmpedIssue, comparedIssueCount, nextIssue, rest);
                     }
-                    
+
                 }
             }
             this.richTextBox1.Text += "\r\n";
-            this.richTextBox1.Text += string.Format("------------******【个位{0}期汇总】******-------------\r\n",comparedIssueCount);
+            this.richTextBox1.Text += string.Format("------------******【个位{0}期汇总】******-------------\r\n", comparedIssueCount);
             if (showCount0)
             {
                 this.richTextBox1.Text += string.Format("【{0}-{1}】共【{2}】期历史相同对比，共出现\r\n"
@@ -210,12 +349,12 @@ namespace CqsscAnalyse
             else
             {
                 StringBuilder sb = new StringBuilder();
-                if ((dxAppear+dsAppear+zzAppear+l3Appear)>0)
+                if ((dxAppear + dsAppear + zzAppear + l3Appear) > 0)
                 {
                     sb.AppendFormat("【{0}-{1}】共【{2}】期历史相同对比，共出现\r\n", baseIssue, baseend, comparedIssueCount);
                 }
-                
-                if(dxAppear > 0)
+
+                if (dxAppear > 0)
                 {
                     sb.AppendFormat(" - 大小:【{0}】次相同结果，其中下期出【大{1}次占{2}】;\r\n", dxAppear, daCount, (daCount * 1.00 / dxAppear).ToString("0.00%"));
                 }
@@ -229,15 +368,15 @@ namespace CqsscAnalyse
                 }
                 if (l3Appear > 0)
                 {
-                    sb.AppendFormat(" - 路数:【{0}】次相同结果，其中下期出0【{1}次占{2}】,1【{3}次占{4}】,2【{5}次占{6}】;\r\n", 
-                        l3Appear, 
+                    sb.AppendFormat(" - 路数:【{0}】次相同结果，其中下期出0【{1}次占{2}】,1【{3}次占{4}】,2【{5}次占{6}】;\r\n",
+                        l3Appear,
                         lu0Count, (lu0Count * 1.00 / l3Appear).ToString("0.00%"),
                         lu1Count, (lu1Count * 1.00 / l3Appear).ToString("0.00%"),
                         lu2Count, (lu2Count * 1.00 / l3Appear).ToString("0.00%"));
                 }
                 this.richTextBox1.Text += sb.ToString();
             }
-          
+
             //this.richTextBox1.Text += "--------***********---------\r\n";
         }
 
@@ -576,18 +715,28 @@ namespace CqsscAnalyse
             //List<DataModel> result = LoadData(readDataDays);
 
             //new DataSaver().SaveData();
+
+
+            this.listView1.Columns.Add("", 40, HorizontalAlignment.Center);
+            this.listView1.Columns.Add("期号", 120, HorizontalAlignment.Right);
+            this.listView1.Columns.Add("开奖号码", 120, HorizontalAlignment.Center);
+            this.listView1.Columns.Add("二星投注", 120, HorizontalAlignment.Center);
+            this.listView1.Columns.Add("投注金额", 120, HorizontalAlignment.Center);
+            this.listView1.Columns.Add("中？", 120, HorizontalAlignment.Center);
+            this.listView1.GridLines = true;
+            this.listView1.View = System.Windows.Forms.View.Details;  //这命令比较重要，否则不能显示。
         }
 
         private List<IssueModel> LoadData(int days)
         {
             DataReader reader = new DataReader();
             string message = "";
-            List<IssueModel> data = reader.ReaderDataFrom500(days,out message);
-            if (!string.IsNullOrEmpty(message) )
+            List<IssueModel> data = reader.ReaderDataFrom500(days, out message);
+            if (!string.IsNullOrEmpty(message))
             {
                 MessageBox.Show(message, "错误", MessageBoxButtons.OK);
             }
-            if(data == null || data.Count == 0)
+            if (data == null || data.Count == 0)
             {
                 return null;
             }
@@ -743,7 +892,7 @@ namespace CqsscAnalyse
             {
                 MessageBox.Show(ex.Message);
             }
-           
+
         }
 
         private void SyncData()
@@ -867,7 +1016,7 @@ namespace CqsscAnalyse
                     if (m == null)
                     {
                         //lostIssues.Add(issueTmp);
-                        AddCheckInfo(issueTmp+"期数据丢失，请手动收入！");
+                        AddCheckInfo(issueTmp + "期数据丢失，请手动收入！");
                         noLost = false;
                     }
                 } //end find and compare

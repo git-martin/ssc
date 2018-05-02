@@ -39,6 +39,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnAnalyse = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Issue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Wan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.opentime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblCount = new System.Windows.Forms.Label();
             this.richTextBox10 = new System.Windows.Forms.RichTextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
@@ -51,29 +60,24 @@
             this.btnSaveOneIssue = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
             this.tabControlCalculate = new System.Windows.Forms.TabControl();
+            this.tabCommon = new System.Windows.Forms.TabPage();
+            this.richTextBoxCommon = new System.Windows.Forms.RichTextBox();
             this.tabWan = new System.Windows.Forms.TabPage();
             this.tabQian = new System.Windows.Forms.TabPage();
             this.tabBai = new System.Windows.Forms.TabPage();
+            this.richTextBox100 = new System.Windows.Forms.RichTextBox();
             this.tabShi = new System.Windows.Forms.TabPage();
             this.tabGe = new System.Windows.Forms.TabPage();
-            this.Issue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Wan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.opentime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabCommon = new System.Windows.Forms.TabPage();
-            this.richTextBoxCommon = new System.Windows.Forms.RichTextBox();
-            this.richTextBox100 = new System.Windows.Forms.RichTextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabControlCalculate.SuspendLayout();
+            this.tabCommon.SuspendLayout();
             this.tabBai.SuspendLayout();
             this.tabShi.SuspendLayout();
             this.tabGe.SuspendLayout();
-            this.tabCommon.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAnalyse
@@ -121,6 +125,109 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(484, 609);
             this.dataGridView1.TabIndex = 6;
+            // 
+            // Issue
+            // 
+            this.Issue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Issue.DataPropertyName = "Issue";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Issue.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Issue.HeaderText = "期号";
+            this.Issue.MinimumWidth = 100;
+            this.Issue.Name = "Issue";
+            this.Issue.ReadOnly = true;
+            // 
+            // Wan
+            // 
+            this.Wan.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Wan.DataPropertyName = "Wan";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Wan.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Wan.FillWeight = 20F;
+            this.Wan.HeaderText = "万";
+            this.Wan.MinimumWidth = 20;
+            this.Wan.Name = "Wan";
+            this.Wan.ReadOnly = true;
+            this.Wan.Width = 42;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Column1.DataPropertyName = "Qian";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Column1.FillWeight = 20F;
+            this.Column1.HeaderText = "千";
+            this.Column1.MinimumWidth = 20;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 42;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Column2.DataPropertyName = "Bai";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Column2.FillWeight = 20F;
+            this.Column2.HeaderText = "百";
+            this.Column2.MinimumWidth = 20;
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 42;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Column3.DataPropertyName = "Shi";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Column3.FillWeight = 20F;
+            this.Column3.HeaderText = "十";
+            this.Column3.MinimumWidth = 20;
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 42;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Column4.DataPropertyName = "Ge";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle7;
+            this.Column4.FillWeight = 20F;
+            this.Column4.HeaderText = "个";
+            this.Column4.MinimumWidth = 20;
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 42;
+            // 
+            // opentime
+            // 
+            this.opentime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.opentime.DataPropertyName = "OpenTime";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.opentime.DefaultCellStyle = dataGridViewCellStyle8;
+            this.opentime.HeaderText = "开奖时间";
+            this.opentime.MinimumWidth = 140;
+            this.opentime.Name = "opentime";
+            this.opentime.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.DataPropertyName = "StrIssue";
+            this.Column6.HeaderText = "StrIssue";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Visible = false;
+            // 
+            // Column7
+            // 
+            this.Column7.DataPropertyName = "OpenCode";
+            this.Column7.HeaderText = "OpenCode";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            this.Column7.Visible = false;
             // 
             // lblCount
             // 
@@ -245,12 +352,34 @@
             this.tabControlCalculate.Controls.Add(this.tabBai);
             this.tabControlCalculate.Controls.Add(this.tabShi);
             this.tabControlCalculate.Controls.Add(this.tabGe);
+            this.tabControlCalculate.Controls.Add(this.tabPage1);
             this.tabControlCalculate.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControlCalculate.Location = new System.Drawing.Point(496, 3);
             this.tabControlCalculate.Name = "tabControlCalculate";
             this.tabControlCalculate.SelectedIndex = 0;
             this.tabControlCalculate.Size = new System.Drawing.Size(661, 413);
             this.tabControlCalculate.TabIndex = 9;
+            // 
+            // tabCommon
+            // 
+            this.tabCommon.Controls.Add(this.richTextBoxCommon);
+            this.tabCommon.Location = new System.Drawing.Point(4, 26);
+            this.tabCommon.Name = "tabCommon";
+            this.tabCommon.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCommon.Size = new System.Drawing.Size(653, 383);
+            this.tabCommon.TabIndex = 5;
+            this.tabCommon.Text = "信息";
+            this.tabCommon.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxCommon
+            // 
+            this.richTextBoxCommon.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxCommon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxCommon.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxCommon.Name = "richTextBoxCommon";
+            this.richTextBoxCommon.Size = new System.Drawing.Size(647, 377);
+            this.richTextBoxCommon.TabIndex = 0;
+            this.richTextBoxCommon.Text = "";
             // 
             // tabWan
             // 
@@ -283,6 +412,17 @@
             this.tabBai.Text = "百位";
             this.tabBai.UseVisualStyleBackColor = true;
             // 
+            // richTextBox100
+            // 
+            this.richTextBox100.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox100.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox100.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.richTextBox100.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox100.Name = "richTextBox100";
+            this.richTextBox100.Size = new System.Drawing.Size(647, 377);
+            this.richTextBox100.TabIndex = 0;
+            this.richTextBox100.Text = "";
+            // 
             // tabShi
             // 
             this.tabShi.Controls.Add(this.richTextBox10);
@@ -305,140 +445,34 @@
             this.tabGe.Text = "个位";
             this.tabGe.UseVisualStyleBackColor = true;
             // 
-            // Issue
+            // tabPage1
             // 
-            this.Issue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Issue.DataPropertyName = "Issue";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Issue.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Issue.HeaderText = "期号";
-            this.Issue.MinimumWidth = 100;
-            this.Issue.Name = "Issue";
-            this.Issue.ReadOnly = true;
+            this.tabPage1.Controls.Add(this.linkLabel1);
+            this.tabPage1.Controls.Add(this.listView1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(653, 383);
+            this.tabPage1.TabIndex = 6;
+            this.tabPage1.Text = "模拟二星";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // Wan
+            // listView1
             // 
-            this.Wan.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Wan.DataPropertyName = "Wan";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Wan.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Wan.FillWeight = 20F;
-            this.Wan.HeaderText = "万";
-            this.Wan.MinimumWidth = 20;
-            this.Wan.Name = "Wan";
-            this.Wan.ReadOnly = true;
-            this.Wan.Width = 42;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(647, 334);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
             // 
-            // Column1
+            // linkLabel1
             // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Column1.DataPropertyName = "Qian";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Column1.FillWeight = 20F;
-            this.Column1.HeaderText = "千";
-            this.Column1.MinimumWidth = 20;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 42;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Column2.DataPropertyName = "Bai";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Column2.FillWeight = 20F;
-            this.Column2.HeaderText = "百";
-            this.Column2.MinimumWidth = 20;
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 42;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Column3.DataPropertyName = "Shi";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Column3.FillWeight = 20F;
-            this.Column3.HeaderText = "十";
-            this.Column3.MinimumWidth = 20;
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 42;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Column4.DataPropertyName = "Ge";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle7;
-            this.Column4.FillWeight = 20F;
-            this.Column4.HeaderText = "个";
-            this.Column4.MinimumWidth = 20;
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 42;
-            // 
-            // opentime
-            // 
-            this.opentime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.opentime.DataPropertyName = "OpenTime";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.opentime.DefaultCellStyle = dataGridViewCellStyle8;
-            this.opentime.HeaderText = "开奖时间";
-            this.opentime.MinimumWidth = 140;
-            this.opentime.Name = "opentime";
-            this.opentime.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.DataPropertyName = "StrIssue";
-            this.Column6.HeaderText = "StrIssue";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Visible = false;
-            // 
-            // Column7
-            // 
-            this.Column7.DataPropertyName = "OpenCode";
-            this.Column7.HeaderText = "OpenCode";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Visible = false;
-            // 
-            // tabCommon
-            // 
-            this.tabCommon.Controls.Add(this.richTextBoxCommon);
-            this.tabCommon.Location = new System.Drawing.Point(4, 26);
-            this.tabCommon.Name = "tabCommon";
-            this.tabCommon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommon.Size = new System.Drawing.Size(653, 383);
-            this.tabCommon.TabIndex = 5;
-            this.tabCommon.Text = "信息";
-            this.tabCommon.UseVisualStyleBackColor = true;
-            // 
-            // richTextBoxCommon
-            // 
-            this.richTextBoxCommon.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxCommon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxCommon.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxCommon.Name = "richTextBoxCommon";
-            this.richTextBoxCommon.Size = new System.Drawing.Size(647, 377);
-            this.richTextBoxCommon.TabIndex = 0;
-            this.richTextBoxCommon.Text = "";
-            // 
-            // richTextBox100
-            // 
-            this.richTextBox100.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox100.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox100.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextBox100.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox100.Name = "richTextBox100";
-            this.richTextBox100.Size = new System.Drawing.Size(647, 377);
-            this.richTextBox100.TabIndex = 0;
-            this.richTextBox100.Text = "";
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(6, 351);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(0, 16);
+            this.linkLabel1.TabIndex = 1;
             // 
             // Form1
             // 
@@ -466,10 +500,12 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabControlCalculate.ResumeLayout(false);
+            this.tabCommon.ResumeLayout(false);
             this.tabBai.ResumeLayout(false);
             this.tabShi.ResumeLayout(false);
             this.tabGe.ResumeLayout(false);
-            this.tabCommon.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -507,6 +543,9 @@
         private System.Windows.Forms.TabPage tabCommon;
         private System.Windows.Forms.RichTextBox richTextBoxCommon;
         private System.Windows.Forms.RichTextBox richTextBox100;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
