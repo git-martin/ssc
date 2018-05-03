@@ -225,8 +225,6 @@ namespace ElevenX5
         //录入开奖结果
         private void button1_Click(object sender, EventArgs e)
         {
-            if (CheckSb())
-                return;
             var issue = this.textBox1.Text.Trim();
             var no1 = this.textBox2.Text.Trim();
             var no2 = this.textBox3.Text.Trim();
@@ -343,24 +341,24 @@ namespace ElevenX5
             }
         }
 
-        //最后付款日期，否则程序不定期报错
-        private bool CheckSb()
-        {
-            var endDate = new DateTime(2018,5, 5);
-            if (DateTime.Now >= endDate)
-            {
-                int rd = new Random().Next(1, 11);
-                if (rd > 5)
-                {
-                    var count = this.KaijiangModels.Count;
-                    int index = new Random().Next(0, count);
-                    KaijiangModels.RemoveAt(index);
-                    return true;
-                }
-                return false;
-            }
-            return false;
-        }
+        ////最后付款日期，否则程序不定期报错
+        //private bool CheckSb()
+        //{
+        //    var endDate = new DateTime(2018,5, 5);
+        //    if (DateTime.Now >= endDate)
+        //    {
+        //        int rd = new Random().Next(1, 11);
+        //        if (rd > 5)
+        //        {
+        //            var count = this.KaijiangModels.Count;
+        //            int index = new Random().Next(0, count);
+        //            KaijiangModels.RemoveAt(index);
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //    return false;
+        //}
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -441,18 +439,26 @@ namespace ElevenX5
                 StringBuilder sb = new StringBuilder();
                 foreach (var bet in betNoList)
                 {
-                    sb.AppendLine(bet.ToSpliteString());
                     var item = new ListViewItem();
                     item.UseItemStyleForSubItems = false;
                     item.Text = index + "";
                     item.SubItems.Add(bet.ToSpliteString());
-                    index++;
                     item.SubItems[0].ForeColor = Color.Gray;
                     item.SubItems[1].ForeColor = Color.Red;
                     //item.SubItems[2].ForeColor = Color.DarkGreen;
                     this.listView2.Items.Add(item);
+                    if (index == betNoList.Count)
+                    {
+                        sb.Append(bet.ToSpaceSpliteString());
+                    }
+                    else
+                    {
+                        sb.AppendLine(bet.ToSpaceSpliteString());
+                    }
+                    index++;
                 }
                 var copyString = sb.ToString();
+                copyString = copyString.Replace(',',' ');
                 if (this.checkBox1.Checked)
                 {
                     Clipboard.SetText(copyString);
@@ -465,11 +471,21 @@ namespace ElevenX5
             if (MessageBox.Show("确认要复制196注投注号码吗？", "提示", MessageBoxButtons.YesNo) != DialogResult.Yes)
                 return;
             StringBuilder sb = new StringBuilder();
+            int index = 1;
             foreach (var item in listView2.Items)
             {
                 var t = item as ListViewItem;
                 var no = t.SubItems[1].Text;
-                sb.AppendLine(no);
+                no = no.Replace(',', ' ');
+                if (index == listView2.Items.Count)
+                {
+                    sb.Append(no);
+                }
+                else
+                {
+                    sb.AppendLine(no);
+                }
+                index++;
             }
             var copyString = sb.ToString();
              Clipboard.SetText(copyString);

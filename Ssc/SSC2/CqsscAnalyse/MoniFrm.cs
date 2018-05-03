@@ -150,9 +150,9 @@ namespace CqsscAnalyse
                 {
                     foreach (var shi in betShi)
                     {
-                        if (ge == shi)
-                            continue;
-                        else
+                        //if (ge == shi)
+                        //    continue;
+                        //else
                             betItem++;
                     }
                 }

@@ -95,6 +95,29 @@ namespace SscCommon.SscUtil
             return result;
         }
 
+        public static string ToSpaceSpliteString(this List<int> numList)
+        {
+            var result = "";
+            if (numList != null && numList.Count > 0)
+            {
+                foreach (var i in numList)
+                {
+                    if (i < 10)
+                    {
+                        result += "0" + i;
+                    }
+                    else
+                    {
+                        result += i;
+                    }
+                    result += " ";
+                }
+            }
+            if (result.EndsWith(" "))
+                result = result.TrimEnd(' ');
+            return result;
+        }
+
         public static long ToLong(this string num)
         {
             return long.Parse(num);
