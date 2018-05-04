@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - ERP</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", required: false)
+    <script src="https://cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        .mycontainer {
+            max-width: 100%;
+        }
+
+        body {
+            border: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #7ac0da;
+            border-color: #7ac0da;
+            color: #fff;
+        }
+
+            .navbar-inverse .navbar-brand {
+                color: #fff;
+            }
+
+            .navbar-inverse .navbar-nav > li > a {
+                color: #fff;
+            }
+
+        .log_item {
+            border-bottom: 1px dotted #e5e5e5;
+        }
+        .lv1,.lv2{
+            color:#ff0000;
+            /*font-weight:bold;*/
+        }
+        .lv3 {
+            /*color: #ff0000;*/
+        }
+
+        .lv4,.lv5{
+            color:#ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="mycontainer">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Live Exception Chart.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a>每10分钟刷新数据，你不停点也没用 ;)</a></li>
+                    @*<li>@Html.ActionLink("主页", "Index", "Home", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "HelpPage" }, null)</li>*@
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a>
+    <input type="checkbox"  id="ckFlag">看明细?</>
+</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mycontainer body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+        </footer>
+    </div>
+
+</body>
+</html>

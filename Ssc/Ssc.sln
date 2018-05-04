@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ssc.test", "ssc.test\ssc.test.csproj", "{9D3378CE-1076-4954-858F-3DB364777F19}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqsscAnalyse", "SSC2\CqsscAnalyse\CqsscAnalyse.csproj", "{E0F2114A-7A82-45CC-A530-62160FAA7A02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCWeb", "SSCWeb\SSCWeb.csproj", "{A4C73A3D-8C37-4A8A-B090-4771921AEE7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCWeb.Lib", "SSCWeb.Lib\SSCWeb.Lib.csproj", "{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,8 +73,19 @@ Global
 		{A4C73A3D-8C37-4A8A-B090-4771921AEE7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4C73A3D-8C37-4A8A-B090-4771921AEE7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4C73A3D-8C37-4A8A-B090-4771921AEE7B}.Release|x86.Build.0 = Release|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{214C2806-8976-4D3A-B6D3-3F5E7731AD8F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AFAA77E-BA84-46E2-A2C0-06CCA45B2F20}
 	EndGlobalSection
 EndGlobal

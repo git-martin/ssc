@@ -1,0 +1,25 @@
+2018-05-04 15:25:46,015 [36] INFO  ErpMongoLog.App_Code.Biz [(null)] - hit SaveTodayLog at2018-05-04 15:25:46
+2018-05-04 15:25:46,792 [36] INFO  ErpMongoLog.App_Code.Biz [(null)] - get logs count 22 at2018-05-04 15:25:46
+2018-05-04 15:28:30,960 [36] INFO  ErpMongoLog.App_Code.Biz [(null)] - hit SaveTodayLog at2018-05-04 15:28:30
+2018-05-04 15:29:01,160 [36] ERROR ErpMongoLog.App_Code.Biz [(null)] - >>>>>>>>>>SaveTodayLog Error.
+System.TimeoutException: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = WritableServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "Automatic", Type : "Unknown", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "112.74.129.116:28000" }", EndPoint: "112.74.129.116:28000", State: "Disconnected", Type: "Unknown" }] }.
+   在 MongoDB.Driver.Core.Clusters.Cluster.ThrowTimeoutException(IServerSelector selector, ClusterDescription description)
+   在 MongoDB.Driver.Core.Clusters.Cluster.WaitForDescriptionChangedHelper.HandleCompletedTask(Task completedTask)
+   在 MongoDB.Driver.Core.Clusters.Cluster.WaitForDescriptionChanged(IServerSelector selector, ClusterDescription description, Task descriptionChangedTask, TimeSpan timeout, CancellationToken cancellationToken)
+   在 MongoDB.Driver.Core.Clusters.Cluster.SelectServer(IServerSelector selector, CancellationToken cancellationToken)
+   在 MongoDB.Driver.Core.Bindings.WritableServerBinding.GetWriteChannelSource(CancellationToken cancellationToken)
+   在 MongoDB.Driver.Core.Bindings.ReadWriteBindingHandle.GetWriteChannelSource(CancellationToken cancellationToken)
+   在 MongoDB.Driver.Core.Operations.WriteCommandOperation`1.Execute(IWriteBinding binding, CancellationToken cancellationToken)
+   在 MongoDB.Driver.MongoDatabase.ExecuteWriteOperation[TResult](IWriteOperation`1 operation)
+   在 MongoDB.Driver.MongoDatabase.RunCommandAs[TCommandResult](IMongoCommand command, IBsonSerializer`1 resultSerializer, ReadPreference readPreference)
+   在 MongoDB.Driver.MongoDatabase.RunCommandAs[TCommandResult](IMongoCommand command, ReadPreference readPreference)
+   在 ErpMongoLog.App_Code.MongoLogUtil.GetTodayLog() 位置 D:\Debug\NetCore\ErpMongoLog\App_Code\MongoLogUtil.cs:行号 148
+   在 ErpMongoLog.App_Code.MongoLogUtil.SaveTodayLog() 位置 D:\Debug\NetCore\ErpMongoLog\App_Code\MongoLogUtil.cs:行号 262
+2018-05-04 16:41:28,729 [1] INFO  ErpMongoLog.App_Code.Biz [(null)] - hit SaveTodayLog at2018-05-04 16:41:28
+2018-05-04 16:41:30,326 [1] INFO  ErpMongoLog.App_Code.Biz [(null)] - get logs count 950 at2018-05-04 16:41:30
+2018-05-04 16:46:09,928 [15] INFO  ErpMongoLog.App_Code.Biz [(null)] - hit SaveTodayLog at2018-05-04 16:46:09
+2018-05-04 16:46:11,197 [15] INFO  ErpMongoLog.App_Code.Biz [(null)] - get logs count 950 at2018-05-04 16:46:11
+2018-05-04 18:06:51,173 [1] INFO  ErpMongoLog.App_Code.Biz [(null)] - hit SaveTodayLog at2018-05-04 18:06:51
+2018-05-04 18:06:52,824 [1] INFO  ErpMongoLog.App_Code.Biz [(null)] - get logs count 1007 at2018-05-04 18:06:52
+2018-05-04 18:17:17,234 [1] INFO  ErpMongoLog.App_Code.Biz [(null)] - hit SaveTodayLog at2018-05-04 18:17:17
+2018-05-04 18:17:18,407 [1] INFO  ErpMongoLog.App_Code.Biz [(null)] - get logs count 1021 at2018-05-04 18:17:18

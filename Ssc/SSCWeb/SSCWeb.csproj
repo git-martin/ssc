@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -192,11 +193,12 @@
     <Content Include="App_Code\GlobalConstants.cs" />
     <Content Include="App_Code\DataReader.cs" />
     <Content Include="App_Code\DataSaver.cs" />
-    <Content Include="App_Code\Model\DataBeCompareModel.cs" />
-    <Content Include="App_Code\Model\DataCompareModel.cs" />
-    <Content Include="App_Code\Model\IssueModel.cs" />
+    <Content Include="Models\DataBeCompareModel.cs" />
+    <Content Include="Models\DataCompareModel.cs" />
+    <Content Include="Models\IssueModel.cs" />
     <Content Include="App_Code\DataController.cs" />
     <Content Include="App_Code\Biz.cs" />
+    <Content Include="App_Code\Utils.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -226,6 +228,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
