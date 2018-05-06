@@ -1,155 +1,137 @@
-﻿currentOption = {
+﻿echartOption = {
     title: {
         text: '',
     },
     tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'shadow'
-        }
+        trigger: 'axis'
     },
     legend: {
-        data: ['异常次数Top20']
+        data: ['十位出现次数', '个位出现次数']
     },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis: {
-        type: 'value',
-        boundaryGap: [0, 0.01]
-    },
-    yAxis: {
-        type: 'category',
-        data: [],
-        axisLabel: {                 //坐标轴刻度标签的相关设置
-            show: true,              //是否显示
-            interval: 0,        //坐标轴刻度标签的显示间隔，在类目轴中有效。默认会采用标签不重叠的策略间隔显示标签。可以设置成 0 强制显示所有标签。如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
-            inside: false,
+    toolbox: {
+        show: false,
+        feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
         }
     },
+    calculable: true,
+    xAxis: [
+        {
+            type: 'category',
+            data: [],
+            axisLabel: {
+                show: true,
+                interval: 'auto',    // {number}
+                rotate: 45,
+                margin: 8,
+                formatter: '数{value}',
+                textStyle: {
+                    color: '#333333',
+                }
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            min:0,
+            //max:10,
+            //splitNumber: 1
+            minInterval: 1,    // {number}
+            axisLabel: {
+                show: true,
+            
+                formatter: '{value} 次',    // Template formatter!
+                textStyle: {
+                    color: '#333333',
+                }
+            }
+        }
+    ],
     series: [
         {
-            name: '异常次数Top20',
+            name: '十位出现次数',
             type: 'bar',
             data: [],
-            //顶部数字展示pzr
-            itemStyle: {
-                normal: {
-                    label: {
-                        show: true,//是否展示  
-                        textStyle: {
-                            fontWeight: 'bolder',
-                            fontSize: '12',
-                            fontFamily: '微软雅黑',
-                        }
-                    }
-                }
-            },
+            markPoint: {
+                data: [
+                    { type: 'max', name: '最大值' },
+                    { type: 'min', name: '最小值' }
+                ]
+            }
         },
+        {
+            name: '个位出现次数',
+            type: 'bar',
+            data: [],
+            markPoint: {
+                data: [
+                    { type: 'max', name: '最大值' },
+                    { type: 'min', name: '最小值' }
+                ]
+            }
+        }
     ]
 };
 
 
 $(document).ready(function () {
-    var dom = document.getElementById('main');
-    var myChart = echarts.init(dom, 'light');
+    var subsiteName = $("#subSite").val();
+    var urlPrefix = "";
+    if (subsiteName != "") {
+        urlPrefix = "/" + subsiteName;
+    }
     var timestamp = Date.parse(new Date());
-
-    $.getJSON("/Scripts/today.exceptionlog.json?v=" + timestamp, function (json) {
-        var queryTime = json.LastQueryTime;
-        var logData = json.Data;
-        var len = logData.length;
-        var total = 20;
-        if (len < 20)
-            total = len
-        var index = 0;
-        while (total >= 0) {
-            var severity = logData[index].Severity
-            if (severity > 3) {
-                index++;
-                continue;
-            }
-            var count = logData[index].Count;
-            var action = logData[index].Action;
-            //currentOption.xAxis.data[i] = action;
-            currentOption.yAxis.data.push(action);
-            currentOption.series[0].data.push(count);
-            index++;
-            total--;
-        }
-        //for (var i = 0; i < count; i++) {
-        //    var index = i;
-        //    var action = logData[index].Action;
-        //    var count = logData[index].Count;
-        //    var severity = logData[index].Severity
-        //    currentOption.yAxis.data.push(action);
-        //    currentOption.series[0].data.push(count);
-        //}
-        currentOption.yAxis.data.reverse();
-        currentOption.series[0].data.reverse();
-        currentOption.title.text = "最后更新时间：" + queryTime;
-        //dom.style.height = len * 50 + "px";
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(currentOption);
-        FillDetail(logData);
+    $.getJSON(urlPrefix + "/api/values/today?id=1&v=" + timestamp, function (json) {
+        var data = eval('(' + json + ')');
+        FillDetail(data);
     });
 
-    myChart.on('click', function (params) {
-        if (params.seriesType === 'bar') {
-            // 点击到了 markPoint 上
-            var action = params.name;
-            GetLogDetails(action,0);
+    var dom = document.getElementById('main');
+    var myChart = echarts.init(dom);
+    $.getJSON(urlPrefix + "/api/ssc/noappear?id=0&v=" + timestamp, function (json) {
+        var data = json;//eval('(' + json + ')');
+        for (var i = 0; i < 10; i++) {
+            echartOption.xAxis[0].data.push(i);
+            echartOption.series[0].data.push(data.shi[i]);
+            echartOption.series[1].data.push(data.ge[i]);
         }
+        //echartOption.xAxis[0].data.reverse();
+        myChart.setOption(echartOption);
     });
 });
 
-function GetLogDetails(action,minLv) {
-    var fl = $('#ckFlag').is(':checked');
-    if (!fl)
-        return;
-    $('#myModalLabel').text(action);
-    $("#myModalBody").html("<div>loading data....</div>");
-    $('#myModal').modal('toggle');
-    var url = "/api/log/getdetails?action=" + action + "&n=5&lv=" + minLv;
-    $.get(url, function (data) {
-        var lis = "";
-        var json = eval('(' + data + ')');
-        if (json.result.length > 0) {
-            for (var i = 0; i < json.result.length; i++) {
-                var item = json.result[i];
-                lis += "<div class='log_item'><dl><dt>Contract: " + item.Contract + "</dt><dd></dd><dt>ExMsg: " + item.ExMsg + "</dt><dd></dd><dt>ExDetail - " + item.ExTime + "</dt><dd>" + item.ExDetail + "</dd></dl></div>";
-            }
-            $("#myModalBody").html(lis);
-        } else {
-            $("#myModalBody").html("<div>no data....lol</div>");
-        }
-        $('#myModal').modal('show');
-    });
-}
-
-function showLog(obj) {
-    var action = $(obj).next().text();
-    var lv = $(obj).next().next().text();
-    GetLogDetails(action,lv);
-}
-
 function FillDetail(data) {
     var len = data.length;
-    var tb1 = "<thead><tr><th>#</th><th>Action || ExMsg 字段</th><th>级别</th><th>错误次数</th></tr ></thead >";
+    var tb1 = "<thead><tr><th>期次</th><th>开奖号</th><th>二星投注</th><th>投</th><th>中</th></tr ></thead >";
+    var totalbetZhuTimes = 0;
+    var totalbetZhongTimes = 0;
+    var totalBetTimes = 0;
     for (var i = 0; i < len; i++) {
-        var lv = data[i].Severity;
-        tb1 += "<tr class='lv"+lv+"'><td onclick=showLog(this)>" + (i + 1) + "</td><td>" + data[i].Action + "</td><td>" + data[i].Severity + "</td><td>" + data[i].Count + "</td></tr>";
+        var item = data[i];
+        var zhong = "";
+        var bet = "";
+        var tou = "";
+        if (item.IsBeted == true) {
+            bet = data[i].BetShi + "#" + data[i].BetGe;
+            bet = bet.replace(/,/g, "");
+            bet = bet.replace(/#/g, ",");
+            tou = data[i].BetZhuCount * 2;
+            totalbetZhuTimes += data[i].BetZhuCount;
+            totalBetTimes++;
+            if (item.IsZhong == true) {
+                zhong = "195";
+                totalbetZhongTimes++;
+            }
+        }
+        tb1 += "<tr class='"+item.IsZhong+"'><td>" + data[i].Issue + "</td><td>" + data[i].OpenCode + "</td><td>" + bet + "</td><td>" + tou + "</td><td>" + zhong + "</td></tr>";
     }
     $("#tb").append(tb1);
+    $("#s1").text(totalbetZhuTimes*2);
+    $("#s2").text(totalbetZhongTimes*195);
+    $("#s3").text(totalBetTimes);
+    $("#s4").text(totalbetZhongTimes);
 }
-
-function ObjectId(uid) {
-    return uid;
-}
-function ISODate(date) {
-    return date;
-}
-

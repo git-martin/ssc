@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common.Utils
 {
     //CREATE TABLE cqssc (sync NUMERIC, opentime TEXT, ge NUMERIC, shi NUMERIC, bai NUMERIC, qian NUMERIC, wan NUMERIC, opencode TEXT, issue INTEGER PRIMARY KEY);
     public class SqLiteHelper

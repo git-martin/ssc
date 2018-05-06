@@ -6,11 +6,12 @@ using System.Web.Mvc;
 
 namespace SSCWeb.Controllers
 {
-    public class HomeController : Controller
+    public class HistoryController : Controller
     {
+        // GET: History
         public ActionResult Index()
         {
-            ViewBag.Title = "时时彩推荐";
+            ViewBag.Title = "时时彩推荐历史";
             return View();
         }
     }

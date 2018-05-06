@@ -1,4 +1,4 @@
-﻿namespace SSCWeb.Models
+﻿namespace SSCWeb.Common.Models
 {
     public class DataCompareModel
     {

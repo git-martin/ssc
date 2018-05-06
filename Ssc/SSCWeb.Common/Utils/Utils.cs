@@ -1,10 +1,10 @@
-﻿using SSCWeb.Common.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using SSCWeb.Common.Models;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common.Utils
 {
     public class Utils
     {

@@ -38,11 +38,9 @@ namespace CqsscAnalyse
             InitLv(this.lvToday);
             InitLv(this.lvYestoday);
             InitLv(this.lvBefore);
-
-            MockBet2(this.lvToday,linkLabel1,1);
-            MockBet2(this.lvYestoday, linkLabel2, 2);
-            MockBet2(this.lvBefore, linkLabel3, 3);
-
+            MockBet(this.lvToday,linkLabel1,1);
+            MockBet(this.lvYestoday, linkLabel2, 2);
+            MockBet(this.lvBefore, linkLabel3, 3);
         }
 
         private void InitLv(ListView lv)

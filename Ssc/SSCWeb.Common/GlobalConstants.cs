@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common
 {
     public static class GlobalConstants
     {
@@ -9,6 +9,7 @@ namespace SSCWeb.App_Code
         public static int ReadDataDays = int.Parse(ConfigurationManager.AppSettings["getDataDaysBefore"]);
         public static int MinAnalyseIssues = int.Parse(ConfigurationManager.AppSettings["minIssueCount"]);
         public static int MaxAnalyseIssues = int.Parse(ConfigurationManager.AppSettings["maxIssueCount"]);
+        public static string SubSiteName = ConfigurationManager.AppSettings["SubSiteName"];
 
         public static List<string> DayIssueList()
         {

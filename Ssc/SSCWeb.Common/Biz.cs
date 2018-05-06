@@ -1,17 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using log4net;
+using SSCWeb.Common.Data;
+using SSCWeb.Common.Models;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common
 {
     public static class Biz
     {
         public static List<IssueModel> CurrentCalculateIssues { get; set; }
+        private static System.Timers.Timer timer = new System.Timers.Timer(60000);
         
+        static Biz()
+        {
+            //
+            // TODO: 在此处添加构造函数逻辑
+            timer.Elapsed += OnTimedEvent;
+            timer.Enabled = false;
+            CurrentCalculateIssues = new List<IssueModel>();
+            //
+        }
+
+        public static void Start()
+        {
+            //new MongoLogUtil().SaveTodayLog();
+            //return;
+            timer.Enabled = true;
+            BizBase.log.Info("Biz started at " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+            if (Biz.CurrentCalculateIssues == null || Biz.CurrentCalculateIssues.Count == 0)
+                SyncData();
+
+        }
+
+        private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            BizBase.log.Info("Timer triggered at " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            
+            int hour = DateTime.Now.Hour;
+            int mins = DateTime.Now.Minute;
+            if (10> hour && hour >= 2)
+            {
+                return;
+            }
+            if (22> hour && hour >= 10)
+            {
+                if (mins % 2 == 0)
+                {
+                    SyncData();
+                }
+            }
+            else
+            {
+                SyncData();
+            }
+        }
         public static void SyncData()
         {
             try
             {
-                CurrentCalculateIssues = DataController.ReaderDaysIssue(GlobalConstants.ReadDataDays);
+                //CurrentCalculateIssues = DataController.ReaderDaysIssue(GlobalConstants.ReadDataDays);
                 List<string> dayIssueList = GlobalConstants.DayIssueList();
                 for (int i = 0; i <= GlobalConstants.ReadDataDays; i++)
                 {
@@ -48,25 +97,28 @@ namespace SSCWeb.App_Code
                             {
                                 //do insert both in DB and _currentCalculateIssues
                                 m500.sync = 1;
-                                DataController.InsertIssueModel2Db(m500);
+                                //DataController.InsertIssueModel2Db(m500);
                                 CurrentCalculateIssues.Add(m500);
                             }
                             else if (notSyncIssues.Contains(m500.StrIssue))
                             {
                                 //do update both in DB and _currentCalculateIssues
                                 m500.sync = 1;
-                                DataController.UpdateIssueModel2Db(m500);
+                                //DataController.UpdateIssueModel2Db(m500);
                                 int exchangeIndex = CurrentCalculateIssues.FindIndex(a => a.StrIssue == m500.StrIssue);
                                 CurrentCalculateIssues[exchangeIndex] = m500;
                             }
                         }
                     }
                 }
+                CurrentCalculateIssues = CurrentCalculateIssues.OrderByDescending(x => x.Issue).ToList();
             }
             catch (Exception ex)
             {
+               BizBase.log.Error("SyncData Exception" ,ex);
             }
         }
+
         public static  List<string> CheckMissData()
         {
             var result = new List<string>();
@@ -131,41 +183,38 @@ namespace SSCWeb.App_Code
             {
             }
         }
-        private static List<MoniModel> MoniBet(int dayIndex, List<IssueModel> Data )
+        public static List<MoniModel> MoniBet(int dayIndex, List<IssueModel> allData)
         {
             var result = new List<MoniModel>();
-            if (Data == null)
-                Data = new List<IssueModel>();
+            if (allData == null)
+                allData = new List<IssueModel>();
             List<IssueModel> data = null;
             if (dayIndex == 1)
             {
-                data = Data.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.ToString("yyyyMMdd")));
+                data = allData.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.ToString("yyyyMMdd")));
             }
             else if (dayIndex == 2)
             {
-                data = Data.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.AddDays(-1).ToString("yyyyMMdd")));
+                data = allData.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.AddDays(-1).ToString("yyyyMMdd")));
             }
             else if (dayIndex == 3)
             {
-                data = Data.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.AddDays(-2).ToString("yyyyMMdd")));
+                data = allData.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.AddDays(-2).ToString("yyyyMMdd")));
             }
             if (data.Count == 0)
             {
                 return result;
             }
-            var dicBet = new Dictionary<int, List<int>>
+            if (!data[0].Issue.ToString().EndsWith("120"))
             {
-                {0,new List<int>() },
-                {1,new List<int>() {2,3,4,7,9} },
-                {2,new List<int>() {1,3,7,9} },
-                {3,new List<int>() {6,9,2,1,8,7} },
-                {4,new List<int>() {5,6,1,7,9} },
-                {5,new List<int>() {6,4,7,8} },
-                {6,new List<int>() {3,9,4,5,0} },
-                {7,new List<int>() {2,5,8,9,4,1,3} },
-                {8,new List<int>() {5,7,3,4,1} },
-                {9,new List<int>() {3,6,1,4,7} }
-            };
+                var issue = data[0].Issue + 1;
+                data.Insert(0,new IssueModel()
+                {
+                    OpenCode = "",
+                    StrIssue = issue+"",
+                    sync = 0
+                });
+            }
             for (int i = 0; i < data.Count; i++)
             {
                 var preIndex = i + 1;
@@ -179,10 +228,9 @@ namespace SSCWeb.App_Code
                     });
                     break;
                 }
-                var preGe = data[preIndex].Ge;
-                var preShi = data[preIndex].Shi;
+               
 
-                if (preGe == 0 || preShi == 0 || preGe == preShi)// || Math.Abs(preShi-preGe)>4)
+                if (BizBase.NotBet(data, preIndex))
                 {
                     result.Add(new MoniModel()
                     {
@@ -192,8 +240,10 @@ namespace SSCWeb.App_Code
                     });
                     continue;
                 }
-                var betGe = dicBet[preGe];
-                var betShi = dicBet[preShi];
+                var preGe = data[preIndex].Ge;
+                var preShi = data[preIndex].Shi;
+                var betGe = BizBase.DicBet[preGe];
+                var betShi = BizBase.DicBet[preShi];
                 var currIndex = i;
                 var currGe = data[currIndex].Ge;
                 var currShi = data[currIndex].Shi;
@@ -224,5 +274,35 @@ namespace SSCWeb.App_Code
             return result;
         }
 
+        public static NumAppearModel NoAppear(int count, int dayIndex, List<IssueModel> allData)
+        {
+            var result = new NumAppearModel();
+            if (allData == null)
+                allData = new List<IssueModel>();
+            List<IssueModel> data = null;
+            if (dayIndex == 1)
+            {
+                data = allData.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.ToString("yyyyMMdd")));
+            }
+            else if (dayIndex == 2)
+            {
+                data = allData.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.AddDays(-1).ToString("yyyyMMdd")));
+            }
+            else if (dayIndex == 3)
+            {
+                data = allData.FindAll(x => x.StrIssue.StartsWith(DateTime.Now.AddDays(-2).ToString("yyyyMMdd")));
+            }
+            if (data.Count == 0)
+            {
+                return result;
+            }
+            var tm = data.Take(count).ToList();
+            for (int i = 0; i < count; i++)
+            {
+                result.Ge.Add(tm.Count(x=>x.Ge==i));
+                result.Shi.Add(tm.Count(x => x.Shi == i));
+            }
+            return result;
+        }
     }
 }

@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using SSCWeb.Common.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Xml;
+using Newtonsoft.Json.Linq;
+using SSCWeb.Common.Models;
+using SSCWeb.Common.Utils;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common.Data
 {
     public class DataReader
     {
@@ -129,7 +128,7 @@ namespace SSCWeb.App_Code
                 string postData = String.Format("'lottery':4,'date':{0}", DateTime.Now.AddDays(0 - firstDay).ToString("yyyy-MM-dd"));
                 try
                 {
-                    string response = Utils.HttpPost(urlFm, postData);
+                    string response = Utils.Utils.HttpPost(urlFm, postData);
                     JObject json = JObject.Parse(response);
                     json.Last.Remove();
 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Text;
-using SSCWeb.Models;
+using SSCWeb.Common.Models;
+using SSCWeb.Common.Utils;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common.Data
 {
     public class DataController
     {

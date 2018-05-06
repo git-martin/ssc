@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using HtmlAgilityPack;
-using SSCWeb.Common.Model;
+using SSCWeb.Common.Models;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common.Data
 {
     public class DataSaver
     {

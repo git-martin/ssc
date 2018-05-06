@@ -1,0 +1,53 @@
+﻿@using SSCWeb.Common
+@{
+    var subSiteName = GlobalConstants.SubSiteName;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <style type="text/css">
+        .mybody {
+            padding-top: 0px;
+        }
+        .myheader {
+            background: #ff0000;
+            color: #ffffff;
+        }
+        .mytitle {
+            border-bottom: 1px dotted #aa6708;
+            color: #a94442;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .body-content {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+    </style>
+</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<body class="mybody">
+<div class="container myheader">
+   <h4>重启时时彩分析与推荐</h4> 
+</div>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - 丁超 | 版权所有</p>
+    </footer>
+</div>
+    <input type="hidden" value="@subSiteName" id="subSite"/>
+</body>
+</html>

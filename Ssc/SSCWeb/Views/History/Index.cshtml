@@ -1,0 +1,101 @@
+﻿@{
+    var index = "@index";
+}
+<style type="text/css">
+    .true {
+        color: #ff0000;
+    }
+
+    .myblock {
+        padding-left: 5px;
+        margin-bottom: 5px;
+    }
+
+        .myblock ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+    .myTab {
+        padding: 3px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        color: #a94442;
+        cursor: default;
+        border: 1px solid #dddddd;
+        border-bottom-color: transparent;
+        background: #dddddd;
+    }
+
+    .nav > li > a {
+        position: relative;
+        display: block;
+        padding: 6px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <ul id="myTab" class="nav nav-tabs myTab"></ul>
+        <div id="myTabContent" class="tab-content">
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<script src="~/Scripts/history.js?v=0.1"></script>
+<script id="tabTitle_template" type="text/x-handlebars-template">
+    {{#each this}}
+    {{#ifCond @index '==' 0}}
+    <li class="active">
+        {{else}}
+    <li>
+        {{/ifCond}}
+        <a href="#tab_{{@index}}" data-toggle="tab">{{dateShortStr}}</a>
+    </li>
+    {{/each}}
+</script>
+<script id="tabContent_template" type="text/x-handlebars-template">
+    {{#each this}}
+    {{#ifCond @index '==' 0}}
+    <div class="col-md-12 col-lg-12 tab-pane fade in active" id="tab_{{@index}}">
+        {{else}}
+        <div class="col-md-12 col-lg-12 tab-pane fade" id="tab_{{@index}}">
+            {{/ifCond}}
+            <div class="mytitle">
+                {{dateStr}}开奖推荐与结果
+            </div>
+            <div>
+                <blockquote class="myblock">
+                    <ul>
+                        <li>投注金额：{{totalBetMoney}}，中奖金额：{{totalBetZhongMoney}}</li>
+                        <li>投注次数：{{totalBetTimes}}，中奖次数：{{totalBetZhongTimes}}</li>
+                    </ul>
+                </blockquote>
+            </div>
+            <div style="width: auto; padding: 0px;">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6col-lg-6">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="{{dateStr}}_tb">
+                                <thead><tr><th>期次</th><th>开奖号</th><th>二星投注</th><th>投</th><th>中</th></tr></thead>
+                                {{#with moniModels}}
+                                {{#each this}}
+                                <tr class="{{isZhong}}">
+                                    <td>{{issueShort}}</td>
+                                    <td>{{openCode}} </td>
+                                    <td>{{betNums}}</td>
+                                    <td>{{betZhuMoney}}</td>
+                                    <td>{{isZhongMoney}}</td>
+                                </tr>
+                                {{/each}}
+                                {{/with}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+</script>
+

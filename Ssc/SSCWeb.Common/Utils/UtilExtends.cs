@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SSCWeb.App_Code
+namespace SSCWeb.Common.Utils
 {
     public static class UtilExtends
     {

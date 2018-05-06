@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using SSCWeb.Common;
+using SSCWeb.Common.Models;
 
 namespace SSCWeb.Controllers
 {
-    [Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -19,8 +20,20 @@ namespace SSCWeb.Controllers
         // GET api/values/5
         public string Get(int id)
         {
-            return "value";
+            var data = Biz.MoniBet(1, Biz.CurrentCalculateIssues);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(data);
         }
+        public List<MoniModel> Today(int id)
+        {
+            var data = Biz.MoniBet(1, Biz.CurrentCalculateIssues);
+            return data;
+        }
+        public NumAppearModel NoAppear(int id)
+        {
+            var data = Biz.NoAppear(10, 1, Biz.CurrentCalculateIssues);
+            return data;
+        }
+
 
         // POST api/values
         public void Post([FromBody]string value)

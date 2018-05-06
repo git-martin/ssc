@@ -1,16 +1,22 @@
 ﻿@{
     ViewBag.Title = "Live Exception Chart";
 }
+<style type="text/css">
+    .true {
+        color: #ff0000;
+    }
+
+</style>
 <div id="main" style="width:100%;height:800px;"></div>
 <div>
     <h3>所有明细</h3>
     <div style="width:90%; padding:10px 10px 10px 30px;">
         <div class="row">
-            <div class="col-xs-12 col-md-12 col-lg-12">
+            @*<div class="col-xs-12 col-md-12 col-lg-12">*@
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover" id="tb"></table>
                 </div>
-            </div>
+            @*</div>*@
         </div>
     </div>
 </div>
