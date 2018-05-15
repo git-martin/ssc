@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ssc.test", "ssc.test\ssc.test.csproj", "{9D3378CE-1076-4954-858F-3DB364777F19}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCWeb.Common", "SSCWeb.Common\SSCWeb.Common.csproj", "{1AC39895-1DA2-4BE8-AC90-D31EC4FB9008}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErpMongoLog", "ErpMongoLog\ErpMongoLog.csproj", "{F9098946-E646-411A-9D53-6053A6A4EAD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLogin", "AutoLogin\AutoLogin.csproj", "{4BE0939E-6430-4C48-81D7-CA08924478C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,14 @@ Global
 		{F9098946-E646-411A-9D53-6053A6A4EAD1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9098946-E646-411A-9D53-6053A6A4EAD1}.Release|x86.ActiveCfg = Release|Any CPU
 		{F9098946-E646-411A-9D53-6053A6A4EAD1}.Release|x86.Build.0 = Release|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{4BE0939E-6430-4C48-81D7-CA08924478C2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
